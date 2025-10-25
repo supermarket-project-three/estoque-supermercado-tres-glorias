@@ -1,2 +1,2 @@
 # estoque-supermercado-tres-glorias
-Criação de aplicação CRUD de um estoque para o Supermercado das Três Glórias
+Este documento apresenta o desenvolvimento de um sistema web para controle de estoque de um supermercado, cujo objetivo é facilitar a gestão de produtos, pedidos e reposições. O sistema busca otimizar a comunicação entre o administrador e os responsáveis por setores, oferecendo uma interface intuitiva para o registro de produtos em falta e o acompanhamento dos pedidos.

@@ -1,0 +1,68 @@
+/**Importando estilos da preset*/
+@import url('preset.css');
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(239, 241, 242);
+    width: 100%;
+    min-height: 400px;
+}
+
+.apresentacao {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.apresentacao #titulo {
+    font-size: 0.9rem;
+    background-image: linear-gradient(to right, var(--degrade-verde-cor1), var(--degrade-verde-cor2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(128, 128, 128, 0.573);
+    font-family: var(--fonte1);
+    
+}
+
+.preenchimento {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    box-shadow: 0 0 15px rgba(128, 128, 128, 0.411);
+    padding: 50px;
+    border-radius: 20px;   
+    margin-bottom: 100px; 
+    font-family: var(--fonte2);
+    background-color: var(--cor-identidade-branco);
+    
+}
+
+.preenchimento p label, .preenchimento p input {
+    margin: 4px;
+    margin-right: 8px;
+}
+
+.preenchimento p input {
+    border: 0 solid var(--cor-identidade-branco);
+    border-bottom: 2px solid;
+    width: 250px;
+    border-radius: 2px;
+    height: 25px;
+    font-family: var(--fonte2);
+    font-weight: 300;
+    padding: 3px;
+}

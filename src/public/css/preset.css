@@ -1,0 +1,112 @@
+/*links de fontes usadas:
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/*Como chamar em outro arq css: @import url('caminho');*/
+:root {
+    --cor-identidade-verde: #009975;
+    --cor-identidade-branco: #f5f7f8;
+    --cor-identidade-preto: #2e2e2e;
+    --cor-identidade-azul: #005a99;
+    --degrade-azul-cor1: #1698f5;
+    --degrade-azul-cor2: #0665a8;
+    --degrade-verde-cor1: #00a17a;
+    --degrade-verde-cor2: #008060;
+    --fonte1: "Montserrat";
+    --fonte2: "Poppins";
+    --fonte-footer: "Raleway";
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.mostrar {
+    display: inline;
+}
+
+.naoMostrar {
+    display: none;
+}
+
+#preenchimentoSenha {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+/*Estilo de botao verde*/
+.buttonVerde {
+    padding: 8px;
+    font-family: var(--fonte1);
+    font-weight: bold;
+    border: none;
+    background-image: linear-gradient(45deg, var(--degrade-verde-cor1), var(--degrade-verde-cor2));
+    color: white;
+    border-radius: 3px;
+}
+
+.buttonVerde:hover{
+    color: var(--cor-identidade-preto);
+}
+
+/*Estilo de botao azul*/
+.buttonAzul {
+    padding: 8px;
+    font-family: var(--fonte1);
+    font-weight: bold;
+    border: none;
+    background-image: linear-gradient(45deg, var(--degrade-azul-cor1), var(--degrade-azul-cor2));
+    color: white;
+    border-radius: 3px;
+}
+
+.buttonAzul:hover {
+    color: var(--cor-identidade-preto);
+}
+
+footer {
+    font-family: var(--fonte-footer);
+    font-weight: lighter;
+    font-size: 0.7rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgb(107, 107, 107);
+}
+
+.titulo-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: end;
+    width: 95%;
+    margin-top: 20px;
+    gap: 4px;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.836);
+    padding-bottom: 20px;
+}
+
+.info-footer {
+    width: 80%;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+

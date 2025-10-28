@@ -42,12 +42,6 @@
     display: none;
 }
 
-#preenchimentoSenha {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 
 /*Estilo de botao verde*/
 .buttonVerde {

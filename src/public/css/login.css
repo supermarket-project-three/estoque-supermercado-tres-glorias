@@ -37,6 +37,13 @@ main {
     
 }
 
+#preenchimentoSenha {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
 .preenchimento {
     display: flex;
     flex-direction: column;

@@ -1,0 +1,229 @@
+/*Importando estilos da preset*/
+@import url('preset.css');
+
+/* 1. CORREÇÃO DO FOOTER */
+.container-pagina-principal {
+    min-height: 97vh;
+}
+.main-content {
+    width: 90%;
+    max-width: 1000px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+/* 2. LAYOUT GERAL DA PÁGINA DE ESTOQUE */
+body {
+    font-family: var(--fonte2); 
+    background-color: #fcfcfc; 
+}
+.header-estoque {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--cor-identidade-verde);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.header-estoque h1 {
+    font-family: var(--fonte1);
+    font-size: 2.5rem;
+    color: var(--cor-identidade-preto);
+}
+
+/* 3. ESTILOS DO ACORDEÃO (SANFONA) */
+details.bloco-setor-estoque {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    overflow: hidden; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: var(--cor-identidade-branco);
+    border: 1px solid #eee;
+}
+summary.setor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 15px 20px;
+    transition: background-color 0.2s ease;
+}
+summary.setor-header:hover {
+    background-color: #fdfdfd;
+}
+summary.setor-header::-webkit-details-marker,
+summary.setor-header::marker {
+    display: none;
+}
+.titulo-setor {
+    font-family: var(--fonte2);
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--cor-identidade-preto);
+}
+.setor-conteudo {
+    padding: 20px;
+    border-top: 1px solid #f0f0f0;
+    background-color: var(--cor-identidade-branco);
+}
+.aviso-sem-produtos {
+    font-style: italic;
+    color: #777;
+    padding: 10px 0;
+}
+
+/* 4. ESTILOS DA TABELA DE PRODUTOS */
+.tabela-estoque-produtos {
+    width: 100%;
+    border-collapse: collapse;
+}
+.tabela-estoque-produtos th,
+.tabela-estoque-produtos td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    vertical-align: middle; 
+}
+.tabela-estoque-produtos th {
+    font-family: var(--fonte1);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+    text-transform: uppercase;
+    background-color: #f9f9f9;
+}
+
+.tabela-estoque-produtos .coluna-imagem {
+    width: 80px;
+    text-align: center;
+}
+.img-produto-tabela {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    display: block;
+    margin: 0 auto;
+}
+
+/* REGRAS DE STATUS */
+.status-estoque-baixo {
+    background-color: #fffbe6; /* Fundo amarelo claro */
+    color: #8a6d3b;
+}
+.status-sem-estoque {
+    background-color: #fde8e8; /* Fundo vermelho claro */
+    color: #a94442;
+    text-decoration: line-through; /* Texto riscado */
+}
+
+
+/* 5. ESTILOS DE EDIÇÃO (INPUT E BOTÕES) */
+.tabela-estoque-produtos .coluna-qtd {
+    width: 90px;
+}
+.input-qtd {
+    width: 70px;
+    padding: 8px;
+    font-family: var(--fonte2);
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    text-align: center;
+}
+.input-qtd[type=number]::-webkit-inner-spin-button, 
+.input-qtd[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+.input-qtd[type=number] {
+    -moz-appearance: textfield;
+}
+
+.area-botoes-setor {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 6. ESTILOS DO MODAL (POP-UP) DE JUSTIFICATIVA */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal-overlay:target {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-conteudo {
+    background: var(--cor-identidade-branco);
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    text-align: left;
+}
+.modal-conteudo h2 {
+    font-family: var(--fonte1);
+    color: var(--cor-identidade-preto);
+    margin-top: 0;
+    border-bottom: 2px solid var(--cor-identidade-verde);
+    padding-bottom: 10px;
+}
+.modal-conteudo p {
+    font-family: var(--fonte2);
+    color: #444;
+    line-height: 1.6;
+}
+.modal-fechar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    color: #aaa;
+    text-decoration: none;
+    line-height: 1;
+}
+.modal-fechar:hover {
+    color: var(--cor-identidade-preto);
+}
+.form-modal label {
+    font-family: var(--fonte1);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+}
+.form-modal textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: var(--fonte2);
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    resize: vertical;
+    margin-bottom: 20px;
+}
+.buttonVerde {
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}

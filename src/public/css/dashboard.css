@@ -1,0 +1,123 @@
+/* ----- Configurações Globais ----- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6; /* Um cinza bem claro, como no seu projeto */
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    color: #333;
+    margin-top: 0;
+}
+
+/* ----- Cabeçalho Principal ----- */
+.main-header {
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid #00875E; /* A cor verde do seu projeto */
+    margin-bottom: 2rem;
+}
+
+/* ----- Layout Principal do Dashboard ----- */
+.dashboard-grid {
+    display: grid;
+    /* Define 4 colunas de tamanho igual */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 1.5rem; /* Espaçamento entre os widgets */
+    padding: 0 2rem; /* Espaçamento lateral */
+}
+
+/* ----- Estilo dos Widgets (Caixas) ----- */
+.widget {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Faz o widget de Alertas ocupar 4 colunas */
+.widget-large {
+    grid-column: span 4;
+}
+
+/* Faz os widgets de Gráfico e Atividade ocuparem 2 colunas cada */
+#charts {
+    grid-column: span 2;
+}
+
+#activity {
+    grid-column: span 2;
+}
+
+/* ----- 1. Estilo dos KPIs (Cartões) ----- */
+.kpi-card {
+    text-align: center;
+    border-left: 5px solid #00875E; /* Destaque verde */
+}
+
+.kpi-card h3 {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.kpi-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00875E;
+}
+
+/* ----- 2. Estilo da Tabela de Alertas ----- */
+#alerts table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#alerts th, #alerts td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+#alerts th {
+    background-color: #f9f9f9;
+}
+
+/* Destaques de status */
+.status-esgotado {
+    background-color: #FEECEB; /* Rosa claro */
+    color: #a13d33;
+    font-weight: bold;
+}
+
+.status-baixo {
+    background-color: #FFF9E6; /* Amarelo claro */
+}
+
+.status-ok {
+    background-color: #F0FDF9; /* Verde claro */
+}
+
+/* ----- 3. Feed de Atividade ----- */
+.activity-feed {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.activity-feed li {
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.activity-feed li:last-child {
+    border-bottom: none;
+}
+
+.activity-feed small {
+    display: block;
+    color: #777;
+    margin-top: 4px;
+    font-style: italic;
+}

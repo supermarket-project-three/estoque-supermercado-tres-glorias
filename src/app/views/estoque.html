@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,17 +22,22 @@
         
         <main class="main-content">
             
+            <!--Título do site-->
             <div class="header-estoque">
                 <h1>Controle de Estoque</h1>
             </div>
-
+            
+            <!--Inicio das abas de cada setor-->
             <div class="acordeao-estoque">
 
+                <!--Setor Hortifruti-->
                 <details class="bloco-setor-estoque" open>
                     <summary class="setor-header">
                         <h2 class="titulo-setor">Hortifruti</h2>
                     </summary>
                     <div class="setor-conteudo">
+
+                        <!--Tabela com produtos-->
                         <table class="tabela-estoque-produtos">
                             <thead>
                                 <tr>
@@ -80,6 +85,7 @@
                             </tbody>
                         </table>
 
+                        <!--Botão para justificativa da alteração-->
                         <div class="area-botoes-setor">
                             <a href="#modal-justificativa" class="buttonVerde">Salvar Alterações</a>
                         </div>
@@ -87,10 +93,14 @@
                 </details>
 
                 <details class="bloco-setor-estoque">
+
+                    <!--Setor Laticínios-->
                     <summary class="setor-header">
                         <h2 class="titulo-setor">Laticínios</h2>
                     </summary>
                     <div class="setor-conteudo">
+
+                        <!--Tabela com produtos-->
                         <table class="tabela-estoque-produtos">
                             <thead>
                                 <tr>
@@ -122,10 +132,13 @@
                     </div>
                 </details>
 
+                <!--Setor Mercearia-->
                 <details class="bloco-setor-estoque">
                     <summary class="setor-header">
                         <h2 class="titulo-setor">Mercearia</h2>
                     </summary>
+
+                    <!--Tabela com produtos-->
                     <div class="setor-conteudo">
                         <p class="aviso-sem-produtos">Não há produtos cadastrados neste setor.</p>
                     </div>

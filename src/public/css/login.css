@@ -51,7 +51,7 @@ main {
     align-items: start;
     box-shadow: 0 0 15px rgba(128, 128, 128, 0.411);
     padding: 50px;
-    border-radius: 20px;   
+    border-radius: 20px;
     margin-bottom: 100px; 
     font-family: var(--fonte2);
     background-color: var(--cor-identidade-branco);
@@ -72,4 +72,18 @@ main {
     font-family: var(--fonte2);
     font-weight: 300;
     padding: 3px;
+}
+
+/* ==============================================
+  NOVO ESTILO PARA MENSAGEM DE ERRO DO LOGIN
+==============================================
+*/
+.mensagem-erro {
+    color: #D8000C; /* Um tom de vermelho forte */
+    font-family: var(--fonte2); /* Sua fonte Poppins */
+    font-weight: 500; /* Um pouco mais de destaque */
+    font-size: 0.9rem;
+    
+    /* Adiciona um espacinho para ela "respirar" */
+    margin-top: 10px; 
 }

@@ -24,6 +24,5 @@
     $conexao = DriverManager::getConnection($parametrosConexao, $config);
     $entityManager = new EntityManager($conexao, $config);
 
-
-
+    return $entityManager;
 ?>

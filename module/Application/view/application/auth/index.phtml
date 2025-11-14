@@ -34,21 +34,27 @@
                 </div>
                 
                 <div class="preenchimento">
-                    <p>
-                        <label for="inUser">Email do Usuário: </label>
-                        <input type="text" id="inUser">
-                    </p>
-
-                    <p id="preenchimentoSenha">
-                        <label for="inPassword">Senha: </label>
-                        <input type="password" id="inPassword">
-                        <img id="btOlhoFechado" class="mostrar" src="/img/closed-eyes.png" alt="icone olho fechado" width="20px">
-                        <img id="btOlhoAberto" class="naoMostrar" src="/img/opened-eyes.png" alt="icone olho aberto" width="20px">
-                    </p>
-
-                    <p id="msgErro" class="mensagem-erro"></p>
-
-                    <button id="btLogin" class="buttonVerde" style="margin-top: 20px;">Entrar</button>
+                    <form action="<?= $this->url('autenticar') ?>" method="POST">
+                        <p>
+                            <label for="inUser">Email do Usuário: </label>
+                            <input type="text" id="inUser" name="email">
+                        </p>
+                        <p id="preenchimentoSenha">
+                            <label for="inPassword">Senha: </label>
+                            <input type="password" id="inPassword" name="senha">
+                            <img id="btOlhoFechado" class="mostrar" src="/img/closed-eyes.png" alt="icone olho fechado" width="20px">
+                            <img id="btOlhoAberto" class="naoMostrar" src="/img/opened-eyes.png" alt="icone olho aberto" width="20px">
+                        </p>
+                        <p id="msgErro" class="mensagem-erro">
+                            <?php 
+                            // Verifica se a variável 'error' foi enviada pelo Controller
+                            if (isset($this->error) && $this->error === 'invalid'): 
+                            ?>
+                                Email ou senha inválidos.
+                            <?php endif; ?>
+                        </p>
+                        <button type="submit" id="btLogin" class="buttonVerde" style="margin-top: 20px;">Entrar</button>
+                    </form>
                 </div>
 
             </div>

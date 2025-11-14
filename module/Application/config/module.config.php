@@ -44,6 +44,18 @@ return [
                 ],
             ],
 
+            // --- ROTA DE LOGOUT ---
+            'logout' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/logout',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action'     => 'logout',
+                    ],
+                ],
+            ],
+
             'application' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -91,7 +103,7 @@ return [
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
             
             // Adiciona o caminho para a view de login
-            'application/auth/index' => __DIR__ . '/../view/index.phtml',
+            'application/auth/index' => __DIR__ . '/../view/application/auth/index.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

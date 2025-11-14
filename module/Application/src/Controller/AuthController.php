@@ -18,13 +18,19 @@ class AuthController extends AbstractActionController
 
     public function indexAction()
     {
-        $viewModel = new ViewModel();
+        // Pega o parâmetro 'error' da URL (se existir)
+        $error = $this->params()->fromQuery('error', null);
+
+        $viewModel = new ViewModel([
+            'error' => $error // Passa a variável 'error' para a view
+        ]);
         $viewModel->setTerminal(true); 
         return $viewModel;
     }
 
     public function autenticarAction()
     {
+        
         // 1. Verifica se a requisição é um POST
         if ($this->getRequest()->getMethod() !== 'POST') {
             // Se não for, redireciona de volta para a página de login
@@ -57,7 +63,30 @@ class AuthController extends AbstractActionController
             
             // FALHA!
             // 7. Redireciona de volta para o login com uma mensagem de erro
-            return $this->redirect()->toRoute('login', ['error' => 'invalid']);
+            // 1. Obtém o URL da rota 'login'
+            $url = $this->url()->fromRoute('login');
+            
+            // 2. Adiciona os parâmetros de Query String
+            $url .= '?error=invalid';
+            
+            // 3. Redireciona para o URL completo
+            return $this->redirect()->toUrl($url);
         }
+    }
+
+    /**
+     * Ação GET /logout
+     * Destrói a sessão e redireciona para o login
+     */
+    public function logoutAction()
+    {
+        // Pega o container da sessão 'user'
+        $session = new Container('user');
+        
+        // Destrói os dados da sessão
+        $session->getManager()->destroy();
+
+        // Redireciona para a página de login
+        return $this->redirect()->toRoute('login');
     }
 }

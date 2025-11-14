@@ -1,12 +1,9 @@
-// Espera o documento HTML carregar antes de executar o script
+/*// Espera o documento HTML carregar antes de executar o script
 document.addEventListener('DOMContentLoaded', function() {
 
-    const botaoLogin = document.getElementById('btLogin');
-    const campoUsuario = document.getElementById('inUser');
-    const campoSenha = document.getElementById('inPassword');
+    
     const msgErro = document.getElementById('msgErro');
-    const btOlhoAberto = document.getElementById("btOlhoAberto");
-    const btOlhoFechado = document.getElementById("btOlhoFechado");
+    
     
     // Adiciona um "escutador de clique" no botão de login
     botaoLogin.addEventListener('click', function() {
@@ -50,11 +47,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // FALHA (Usuário ou senha errados)
             msgErro.textContent = 'Usuário ou senha inválidos.';
         }
-    });
+    });*/
 
     //Funcionalidade do olho de mostrar senha
     
     //Mostrar ou ocultar senha 
+    const botaoLogin = document.getElementById('btLogin');
+    const campoUsuario = document.getElementById('inUser');
+    const campoSenha = document.getElementById('inPassword');
+    const btOlhoAberto = document.getElementById("btOlhoAberto");
+    const btOlhoFechado = document.getElementById("btOlhoFechado");
+
     function MudarOlho(){
 
         if(campoSenha.type == "password"){
@@ -72,4 +75,4 @@ document.addEventListener('DOMContentLoaded', function() {
     btOlhoAberto.addEventListener("click", MudarOlho);
     btOlhoFechado.addEventListener("click", MudarOlho);
 
-});
+//});

@@ -1,0 +1,121 @@
+/* ----- Configurações Globais ----- */
+@import url('preset.css');
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6; /* Um cinza bem claro, como no seu projeto */
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    color: #333;
+    margin-top: 0;
+}
+
+/* ----- Cabeçalho Principal ----- */
+.main-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid #00875E; /* A cor verde do seu projeto */
+    margin-bottom: 2rem;
+}
+
+.main-header ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 30px;
+    gap: 20px;
+    list-style-type: none;
+}
+
+.main-header ul li a {
+    text-decoration: none;
+    background-color: #00875E;
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+}
+
+/* ----- Layout Principal do Dashboard ----- */
+.dashboard-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.dashboard-flex h2 {
+    color: #00875E;
+    margin-top: 30px;
+}
+
+.close {
+    display: none;
+}
+
+.open {
+    display: block;
+}
+
+.register-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 45%;
+    min-height: 500px;
+    box-shadow: 0 0 5px rgba(128, 128, 128, 0.555);
+    border-radius: 30px;
+    border-left: 5px solid #00875E;
+    padding: 25px;
+    text-align: center;
+}
+
+#form {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 60px;
+    font-family: var(--fonte2);
+
+}
+
+#form input:not([type="radio"]) {
+    border: 0 solid var(--cor-identidade-branco);
+    border-bottom: 2px solid;
+    width: 250px;
+    border-radius: 2px;
+    height: 25px;
+    font-family: var(--fonte2);
+    font-weight: 300;
+    padding: 3px;
+}
+
+
+.radio p {
+    text-align: start;
+    padding: 6px;
+    display: inline;
+}
+
+
+.list-users {
+    width: 45%;
+    min-height: 500px;
+    box-shadow: 0 0 5px rgba(128, 128, 128, 0.555);
+    border-radius: 30px;
+    border-left: 5px solid #00875E;
+    padding: 25px;
+    text-align: center;
+}
+

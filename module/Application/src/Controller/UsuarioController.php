@@ -5,12 +5,12 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Application\Service\DoctrineService;
 use Application\Entity\Usuario;
+use Application\Entity\Setor; // <<< ADICIONE ESTE 'USE'
 
 class UsuarioController extends AbstractActionController
 {
     private $em; // Nosso EntityManager
 
-    // 1. Recebemos o DoctrineService (igual ao AuthController)
     public function __construct(DoctrineService $doctrineService)
     {
         $this->em = $doctrineService->getEntityManager();
@@ -22,12 +22,16 @@ class UsuarioController extends AbstractActionController
      */
     public function indexAction()
     {
-        // 1. Busca todos os usuários existentes no banco
+        // 1. Busca todos os usuários
         $usuarios = $this->em->getRepository(Usuario::class)->findAll();
+        
+        // 2. <<< NOVO: Busca todos os setores para o dropdown >>>
+        $setores = $this->em->getRepository(Setor::class)->findAll();
 
-        // 2. Envia os usuários para a view
+        // 3. Envia usuários E setores para a view
         return new ViewModel([
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+            'setores'  => $setores // <<< NOVO
         ]);
     }
 
@@ -37,35 +41,40 @@ class UsuarioController extends AbstractActionController
      */
     public function salvarAction()
     {
-        // Verifica se é um POST
         if ($this->getRequest()->getMethod() !== 'POST') {
-            // Se não for POST, volta para a listagem
-            return $this->redirect()->toRoute('dashboard-usuarios'); // <<< CORRIGIDO
-        }
-
-        // Pega os dados do formulário
-        $data = $this->params()->fromPost();
-
-        // --- (Validação: verificar se o email já existe) ---
-        $emailExistente = $this->em->getRepository(Usuario::class)->findOneBy(['email' => $data['email']]);
-        if ($emailExistente) {
-            // Se o email já existe, volta
-
             return $this->redirect()->toRoute('dashboard-usuarios');
         }
 
-        // Cria a nova entidade Usuario
+        $data = $this->params()->fromPost();
+
+        $emailExistente = $this->em->getRepository(Usuario::class)->findOneBy(['email' => $data['email']]);
+        if ($emailExistente) {
+            // (Futuramente, adicionaremos uma mensagem de erro flash)
+            return $this->redirect()->toRoute('dashboard-usuarios');
+        }
+
         $novoUsuario = new Usuario();
         $novoUsuario->setNome($data['nome']);
         $novoUsuario->setEmail($data['email']);
-        $novoUsuario->setTipo($data['tipo']); // 'admin' ou 'responsavel'
-        $novoUsuario->setSenhaComHash($data['senha']); // Usa o método que gera o HASH
+        $novoUsuario->setTipo($data['tipo']);
+        $novoUsuario->setSenhaComHash($data['senha']);
 
-        // Salva no banco
+        // --- INÍCIO DA LÓGICA DE SETOR ---
+        // Se for 'responsavel' E um setor foi enviado
+        if ($data['tipo'] === 'responsavel' && !empty($data['setor_id'])) {
+            // Busca o objeto Setor no banco
+            $setorObj = $this->em->getRepository(Setor::class)->find($data['setor_id']);
+            
+            if ($setorObj) {
+                // Associa o Setor ao Usuário
+                $novoUsuario->setSetor($setorObj); 
+            }
+        }
+        // --- FIM DA LÓGICA DE SETOR ---
+
         $this->em->persist($novoUsuario);
         $this->em->flush();
 
-        // Redireciona de volta para a página de usuários
         return $this->redirect()->toRoute('dashboard-usuarios');
     }
 }

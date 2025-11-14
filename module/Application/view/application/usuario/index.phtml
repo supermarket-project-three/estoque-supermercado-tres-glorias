@@ -13,7 +13,7 @@
     <!--Estilos-->
     <link rel="stylesheet" href="/css/preset.css">
     <link rel="stylesheet" href="/css/dashboard-usuarios.css">
-    <title>Dashboard</title>
+    <title>Gestão Usuários</title>
 
 </head>
 
@@ -43,11 +43,11 @@
 
             <form id="form" method="POST" action="<?=  $this->url('dashboard-usuarios-salvar'); ?>">
 
-                <p><label for="inNome">Nome: </label><input type="text" id="inNome" name="nome"></p>
+                <p><label for="inNome">Nome: </label><input type="text" id="inNome" name="nome" required></p>
 
-                <p><label for="inEmail">Email: </label><input type="email" id="inEmail" name="email"></p>
+                <p><label for="inEmail">Email: </label><input type="email" id="inEmail" name="email" required></p>
 
-                <p><label for="inSenha: ">Senha: </label><input type="text" id="inSenha" name="senha"></p>
+                <p><label for="inSenha: ">Senha: </label><input type="text" id="inSenha" name="senha" required></p>
 
                 <div class="radio">
                     <p>Tipo: </p>
@@ -106,7 +106,9 @@
                 
                                     echo '<td>';
             
-                                    echo '<a class="edit" href="#">Editar</a> | '; 
+                                    // Cria o URL para a rota 'dashboard-usuarios-editar', passando o ID
+                                    $urlEditar = $this->url('dashboard-usuarios-editar', ['id' => $usuario->getId()]);
+                                    echo '<a class="edit" href="' . $urlEditar . '">Editar</a> | ';
                                     
                                     // Cria o URL para a rota 'dashboard-usuarios-apagar', passando o ID do usuário
                                     $urlApagar = $this->url('dashboard-usuarios-apagar', ['id' => $usuario->getId()]);

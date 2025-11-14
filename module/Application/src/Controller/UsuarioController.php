@@ -106,4 +106,87 @@ class UsuarioController extends AbstractActionController
         // 4. Redireciona de volta para a lista
         return $this->redirect()->toRoute('dashboard-usuarios');
     }
+
+    /**
+     * Ação GET /dashboard-usuarios/editar/:id
+     * Mostra o formulário preenchido com os dados do usuário
+     */
+    public function editarAction()
+    {
+        // 1. Pega o ID da rota
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if ($id === 0) {
+            return $this->redirect()->toRoute('dashboard-usuarios');
+        }
+
+        // 2. Busca o usuário no banco
+        $usuario = $this->em->getRepository(Usuario::class)->find($id);
+        if (!$usuario) {
+            return $this->redirect()->toRoute('dashboard-usuarios');
+        }
+        
+        // 3. Busca os setores (para o dropdown)
+        $setores = $this->em->getRepository(Setor::class)->findAll();
+
+        // 4. Envia os dados para uma nova view (editar.phtml)
+        $viewModel = new ViewModel([
+            'usuario' => $usuario, // O usuário a ser editado
+            'setores' => $setores   // A lista de setores
+        ]);
+        
+        // Aponta para o novo arquivo de view que vamos criar
+        $viewModel->setTemplate('application/usuario/editar.phtml'); 
+        
+        $viewModel->setTerminal(true); 
+        
+        return $viewModel;
+    }
+
+    /**
+     * Ação POST /dashboard-usuarios/atualizar/:id
+     * Recebe os dados do formulário de edição e salva
+     */
+    public function atualizarAction()
+    {
+        // 1. Pega o ID da rota
+        $id = (int) $this->params()->fromRoute('id', 0);
+        
+        // 2. Busca o usuário que queremos ATUALIZAR
+        $usuario = $this->em->getRepository(Usuario::class)->find($id);
+
+        if (!$usuario || $this->getRequest()->getMethod() !== 'POST') {
+            return $this->redirect()->toRoute('dashboard-usuarios');
+        }
+
+        // 3. Pega os dados do formulário
+        $data = $this->params()->fromPost();
+
+        // 4. Atualiza o objeto Usuário
+        $usuario->setNome($data['nome']);
+        $usuario->setEmail($data['email']);
+        $usuario->setTipo($data['tipo']);
+
+        // 5. Lógica da Senha: Só atualiza se uma NOVA senha for digitada
+        if (!empty($data['senha'])) {
+            $usuario->setSenhaComHash($data['senha']);
+        }
+
+        // 6. Lógica do Setor
+        if ($data['tipo'] === 'responsavel' && !empty($data['setor_id'])) {
+            $setorObj = $this->em->getRepository(Setor::class)->find($data['setor_id']);
+            if ($setorObj) {
+                $usuario->setSetor($setorObj);
+            }
+        } else {
+            // Se for admin, remove a associação de setor
+            $usuario->setSetor(null); 
+        }
+
+        // 7. Salva as alterações no banco
+        // (Não é preciso persist(), pois o objeto já está "gerido" pelo Doctrine)
+        $this->em->flush();
+
+        // 8. Redireciona de volta para a lista
+        return $this->redirect()->toRoute('dashboard-usuarios');
+    }
 }

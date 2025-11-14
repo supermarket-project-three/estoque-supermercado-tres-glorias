@@ -113,6 +113,34 @@ return [
                 ],
             ],
 
+            'dashboard-usuarios-editar' => [
+                'type'    => Segment::class, // Usa Segment para aceitar o :id
+                'options' => [
+                    'route'    => '/dashboard-usuarios/editar/:id',
+                    'constraints' => [
+                        'id' => '[0-9]+', // Garante que o ID é um número
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'editar', // Chama o editarAction
+                    ],
+                ],
+            ],
+            
+            'dashboard-usuarios-atualizar' => [
+                'type'    => Segment::class, // Usa Segment para aceitar o :id
+                'options' => [
+                    'route'    => '/dashboard-usuarios/atualizar/:id',
+                    'constraints' => [
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'atualizar', // Chama o atualizarAction
+                    ],
+                ],
+            ],
+
             // Rota Padrão 'application'
             'application' => [
                 'type'    => Segment::class,
@@ -171,6 +199,8 @@ return [
             'application/auth/index'    => __DIR__ . '/../view/application/auth/index.phtml',
             // View da Gestão de Utilizadores
             'application/usuario/index' => __DIR__ . '/../view/application/usuario/index.phtml', 
+            //View da Edição de Utilizadores
+            'application/usuario/editar' => __DIR__ . '/../view/application/usuario/editar.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

@@ -10,7 +10,6 @@
     box-sizing: border-box;
 }
 
-
 /*Como chamar em outro arq css: @import url('caminho');*/
 :root {
     --cor-identidade-verde: #009975;
@@ -33,6 +32,10 @@
     align-items: center;
     text-align: center;
     
+    min-height: 100vh; /* Ocupa a altura total da janela de visualização */
+    width: 100%; /* Ocupa toda a largura total */
+    padding: 20px; /* Garante que tenha algum espaço nas laterais em telas pequenas */
+    box-sizing: border-box; /* Garante que o padding não estoure o width/height */
 }
 
 .mostrar {

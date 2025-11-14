@@ -1,6 +1,13 @@
 /**Importando estilos da preset*/
 @import url('preset.css');
 
+@media screen and (min-width: 1024px) {
+    #login {
+        width: 450px;
+        /* Para garantir que o card tenha um tamanho fixo e agradável no centro */
+    }
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -15,8 +22,54 @@ main {
     justify-content: center;
     align-items: center;
     background-color: rgb(239, 241, 242);
-    width: 100%;
-    min-height: 400px;
+
+    width: 90%; /* Alteração (100% -> 90%) para deixar um pequeno padding na lateral */
+    min-height: 400px; 
+    max-width: 450px; /* Limita o tamanho do card mesmo no mobile */
+    padding: 20px; /* Padding interno */
+    border-radius: 10px; /* Borda arredondada (pode remover se necessário) */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra para dar profundidade */
+}
+
+#login .preenchimento p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+
+    /* Resumidamente: */
+    /* O display transforma o <p> em um container flexível. */
+    /* O align-items alinha o label e o input verticalmente no centro. */
+    /* O justify-content distribui o espaço entre o label e o input. */
+    /* O margin-bottom adiciona um espaço entre as linhas. */
+    /* O flex-wrap permite que os itens quebrem linhas em telas pequenas. */
+}
+
+#login .preenchimento label {
+    flex-basis: 35%;
+    text-align: left;
+    margin-right: 10px;
+    white-space: nowrap;
+
+    /* Resumindo: */
+    /* O flex-basis dá uma base de largura pro label. (Ajuste se for necessário) */
+    /* O text-allign alinha o texto do label à esquerda. */
+    /* O margin-right adiciona um espaço entre o label e o input. */
+    /* O white-space impede que o label quebre a linha. */
+}
+
+#login .preenchimento input[type="text"],
+#login .preenchimento input[type="password"] {
+    flex-grow: 1; 
+    padding: 8px 10px;
+    
+    border: none;
+    border-bottom: 1px solid #ccc; /* 1px de espessura, linha sólida, cor cinza */
+    background-color: transparent; 
+    border-radius: 0; 
+
+    max-width: 60%; 
 }
 
 .apresentacao {

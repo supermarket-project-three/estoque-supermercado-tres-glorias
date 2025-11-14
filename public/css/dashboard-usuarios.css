@@ -8,6 +8,14 @@ body {
     padding: 0;
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 h1, h2, h3 {
     color: #333;
     margin-top: 0;
@@ -151,3 +159,78 @@ h1, h2, h3 {
     background-color: #E9190F;
 }
 
+/* --- RESPONSIVIDADE (MOBILE-FIRST) --- */
+
+/* Estilos para Telas Pequenas (Celulares: até 768px) */
+/* Por padrão, os blocos devem ocupar 100% e se empilhar (coluna). */
+
+/* Alteração no layout principal para empilhar os blocos */
+.dashboard-flex {
+    flex-direction: column; /* Empilha os blocos de cadastro e lista */
+    align-items: center; /* Centraliza os blocos na tela */
+    gap: 20px; /* Adiciona um espaço entre o bloco de cadastro e a lista */
+    padding: 10px;
+}
+
+/* Faz que os blocos ocupem a larguta total em mobile */
+.register-user, .list-users {
+    width: 95%; /* Ocupa quase toda a largura, deixando um pequeno espaço */
+    min-height: auto; /* Para a altura se ajustar ao conteúdo conforme necessário */
+
+    box-shadow: none; /* Remove a sombra em telas menores */
+    border-left: none; /* Remove a borda em telas menores */
+    /* A sombra e a borda foram removidas em telas menores (mobile) para uma visualização mais limpa. */
+
+    border-top: 5px solid #00875E; /* Coloca a linha verde no topo, ao invés de ser no lado esquerdo. */
+    border-radius: 10px;
+}
+
+/* Ajusta a largura dos inputs para ocupar o espaço do bloco */
+#form input:not([type="radio"]) {
+    width: 100%;
+    max-width: 300px; /* Limita o tamanho máximo em telas maiores. */
+}
+
+/* Ajusta o header para melhor visualização em mobile */
+.main-header {
+    flex-direction: column; /* Empilha a logo e o menu */
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.main-header ul {
+    margin-top: 10px;
+    margin-right: 0;
+    justify-content: center;
+}
+
+/* --- BREAKPOINT: Tablet e Desktop (a partir de 769px) --- */
+@media screen and (min-width: 769px) {
+    /* Restaura o layout original (lado a lado) */
+    .dashboard-flex {
+        flex-direction: row;
+        justify-content: space-evenly;
+        padding: 0 20px;
+    }
+
+    /* Restaura as larguras definidas para o desktop */
+    .register-user {
+        width: 40%;
+        border-left: 5px solid #00875E;
+        border-top: none;
+        box-shadow: 0 0 5px rgba(128, 128, 128, 0.555)
+    }
+
+    .list-users {
+        width: 50%;
+        border-left: 5px solid #00875E;
+        border-top: none;
+        box-shadow: 0 0 5px rgba(128, 128, 128, 0.555);
+    }
+
+    /* Restaura o layout do cabeçalho */
+    .main-header {
+        flex-direction: row;
+        padding: 1.5rem 2rem;
+    }
+}

@@ -5,11 +5,11 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Application\Service\DoctrineService;
 use Application\Entity\Usuario;
-use Application\Entity\Setor; // <<< ADICIONE ESTE 'USE'
+use Application\Entity\Setor;
 
 class UsuarioController extends AbstractActionController
 {
-    private $em; // Nosso EntityManager
+    private $em; // EntityManager
 
     public function __construct(DoctrineService $doctrineService)
     {
@@ -22,13 +22,13 @@ class UsuarioController extends AbstractActionController
      */
     public function indexAction()
     {
-        // 1. Busca todos os usuários
+        // Busca todos os usuários
         $usuarios = $this->em->getRepository(Usuario::class)->findAll();
         
-        // 2. <<< NOVO: Busca todos os setores para o dropdown >>>
+        //Busca todos os setores
         $setores = $this->em->getRepository(Setor::class)->findAll();
 
-        // 3. Envia usuários E setores para a view
+        //Envia usuários E setores para a view
         $viewModel = new ViewModel([
             'usuarios' => $usuarios,
             'setores'  => $setores // <<< NOVO
@@ -53,7 +53,7 @@ class UsuarioController extends AbstractActionController
 
         $emailExistente = $this->em->getRepository(Usuario::class)->findOneBy(['email' => $data['email']]);
         if ($emailExistente) {
-            // (Futuramente, adicionaremos uma mensagem de erro flash)
+            // (Futuramente, uma mensagem de erro flash)
             return $this->redirect()->toRoute('dashboard-usuarios');
         }
 
@@ -63,7 +63,7 @@ class UsuarioController extends AbstractActionController
         $novoUsuario->setTipo($data['tipo']);
         $novoUsuario->setSenhaComHash($data['senha']);
 
-        // Se for 'responsavel' E um setor foi enviado
+        // Se for responsavel e um setor foi enviado
         if ($data['tipo'] === 'responsavel' && !empty($data['setor_id'])) {
             // Busca o objeto Setor no banco
             $setorObj = $this->em->getRepository(Setor::class)->find($data['setor_id']);
@@ -80,9 +80,10 @@ class UsuarioController extends AbstractActionController
         return $this->redirect()->toRoute('dashboard-usuarios');
     }
 
+    //Função de apagar usuário
     public function apagarAction()
     {
-        // 1. Pega o ID da rota (do URL)
+        // Pega o ID da rota (do URL)
         $id = (int) $this->params()->fromRoute('id', 0);
 
         if ($id === 0) {
@@ -91,19 +92,19 @@ class UsuarioController extends AbstractActionController
         }
 
         try {
-            // 2. Encontra o usuário no banco
+            // Encontra o usuário no banco
             $usuario = $this->em->getRepository(Usuario::class)->find($id);
 
             if ($usuario) {
-                // 3. Remove o usuário
+                //Remove o usuário
                 $this->em->remove($usuario);
-                $this->em->flush(); // Aplica a remoção no banco
+                $this->em->flush();
             }
         } catch (\Exception $e) {
             echo 'erro: ' . $e->getMessage();
         }
 
-        // 4. Redireciona de volta para a lista
+        // Redireciona de volta para a lista
         return $this->redirect()->toRoute('dashboard-usuarios');
     }
 
@@ -113,22 +114,22 @@ class UsuarioController extends AbstractActionController
      */
     public function editarAction()
     {
-        // 1. Pega o ID da rota
+        // Pega o ID da rota
         $id = (int) $this->params()->fromRoute('id', 0);
         if ($id === 0) {
             return $this->redirect()->toRoute('dashboard-usuarios');
         }
 
-        // 2. Busca o usuário no banco
+        // Busca o usuário no banco
         $usuario = $this->em->getRepository(Usuario::class)->find($id);
         if (!$usuario) {
             return $this->redirect()->toRoute('dashboard-usuarios');
         }
         
-        // 3. Busca os setores (para o dropdown)
+        // Busca os setores (para o dropdown)
         $setores = $this->em->getRepository(Setor::class)->findAll();
 
-        // 4. Envia os dados para uma nova view (editar.phtml)
+        // Envia os dados para uma nova view (editar.phtml)
         $viewModel = new ViewModel([
             'usuario' => $usuario, // O usuário a ser editado
             'setores' => $setores   // A lista de setores
@@ -148,30 +149,30 @@ class UsuarioController extends AbstractActionController
      */
     public function atualizarAction()
     {
-        // 1. Pega o ID da rota
+        // Pega o ID da rota
         $id = (int) $this->params()->fromRoute('id', 0);
         
-        // 2. Busca o usuário que queremos ATUALIZAR
+        // Busca o usuário que queremos ATUALIZAR
         $usuario = $this->em->getRepository(Usuario::class)->find($id);
 
         if (!$usuario || $this->getRequest()->getMethod() !== 'POST') {
             return $this->redirect()->toRoute('dashboard-usuarios');
         }
 
-        // 3. Pega os dados do formulário
+        // Pega os dados do formulário
         $data = $this->params()->fromPost();
 
-        // 4. Atualiza o objeto Usuário
+        // Atualiza o objeto Usuário
         $usuario->setNome($data['nome']);
         $usuario->setEmail($data['email']);
         $usuario->setTipo($data['tipo']);
 
-        // 5. Lógica da Senha: Só atualiza se uma NOVA senha for digitada
+        // Lógica da Senha: Só atualiza se uma nova senha for digitada
         if (!empty($data['senha'])) {
             $usuario->setSenhaComHash($data['senha']);
         }
 
-        // 6. Lógica do Setor
+        // Lógica do Setor
         if ($data['tipo'] === 'responsavel' && !empty($data['setor_id'])) {
             $setorObj = $this->em->getRepository(Setor::class)->find($data['setor_id']);
             if ($setorObj) {
@@ -182,11 +183,11 @@ class UsuarioController extends AbstractActionController
             $usuario->setSetor(null); 
         }
 
-        // 7. Salva as alterações no banco
+        // Salva as alterações no banco
         // (Não é preciso persist(), pois o objeto já está "gerido" pelo Doctrine)
         $this->em->flush();
 
-        // 8. Redireciona de volta para a lista
+        // Redireciona de volta para a lista
         return $this->redirect()->toRoute('dashboard-usuarios');
     }
 }

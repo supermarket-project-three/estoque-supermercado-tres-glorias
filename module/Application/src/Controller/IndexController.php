@@ -12,16 +12,16 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        // Tenta aceder à sessão 'user' que o AuthController criou
+        // Tenta aceder à sessão user
         $session = new Container('user');
         $nomeUsuario = null;
 
         if (isset($session->id)) {
-            // Se a sessão existe (utilizador logado), pega o nome
+            // Se a sessão existe, pega o nome
             $nomeUsuario = $session->nome;
         }
 
-        // Envia o nome (ou null, se não estiver logado) para a view
+        // Envia o nome para a view
         return new ViewModel([
             'nomeUsuario' => $nomeUsuario
         ]);

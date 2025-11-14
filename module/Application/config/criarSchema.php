@@ -11,7 +11,7 @@ $config = require __DIR__ . '/../../../config/autoload/doctrine.global.php';
 // Cria o ServiceManager
 $container = new ServiceManager($config['dependencies']);
 
-// Recupera o EntityManager
+//Pega o EntityManager
 /** @var EntityManager $entityManager */
 $entityManager = $container->get(EntityManager::class);
 

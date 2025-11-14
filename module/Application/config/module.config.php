@@ -11,7 +11,7 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
-            // Rota Padrão (Home)
+            // Rota Inicial
             'home' => [
                 'type'    => Literal::class,
                 'options' => [
@@ -23,11 +23,11 @@ return [
                 ],
             ],
             
-            // --- Rotas de Autenticação ---
+            //Rotas de Autenticação
             'login' => [
                 'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/login', // URL para MOSTRAR a página de login
+                    'route'    => '/login', // URL de login
                     'defaults' => [
                         'controller' => Controller\AuthController::class,
                         'action'     => 'index',
@@ -47,7 +47,7 @@ return [
             'logout' => [
                 'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/logout',
+                    'route'    => '/logout', //URL para fazer logout
                     'defaults' => [
                         'controller' => Controller\AuthController::class,
                         'action'     => 'logout',
@@ -55,13 +55,13 @@ return [
                 ],
             ],
             
-            // --- Rotas de Destino (Pós-Login) ---
+            //Rotas de Destino (só serão permitidas após o login)
             'dashboard' => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/dashboard',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class, // (Por enquanto, aponta para Home)
+                        'controller' => Controller\IndexController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -71,17 +71,17 @@ return [
                 'options' => [
                     'route'    => '/estoque',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class, // (Por enquanto, aponta para Home)
+                        'controller' => Controller\IndexController::class,
                         'action'     => 'index',
                     ],
                 ],
             ],
 
-            // --- Rotas de Gestão de Utilizadores (Dashboard) ---
+            //Rotas de Gestão (Dashboard)
             'dashboard-usuarios' => [
                 'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/dashboard-usuarios', // O URL da página de gestão
+                    'route'    => '/dashboard-usuarios', // O URL da página de gestão de usuarios
                     'defaults' => [
                         'controller' => Controller\UsuarioController::class,
                         'action'     => 'index',
@@ -91,7 +91,7 @@ return [
             'dashboard-usuarios-salvar' => [
                 'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/dashboard-usuarios/salvar', // O URL que o form envia
+                    'route'    => '/dashboard-usuarios/salvar', // O URL que o form envia para salvar o usuario
                     'defaults' => [
                         'controller' => Controller\UsuarioController::class,
                         'action'     => 'salvar',
@@ -100,9 +100,9 @@ return [
             ],
 
             'dashboard-usuarios-apagar' => [
-                'type'    => Segment::class, // Usa Segment para aceitar parâmetros
+                'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/dashboard-usuarios/apagar/:id', // O URL com o parâmetro :id
+                    'route'    => '/dashboard-usuarios/apagar/:id', // O URL com o parâmetro :id para apagar o usuario
                     'constraints' => [
                         'id' => '[0-9]+', 
                     ],
@@ -114,34 +114,34 @@ return [
             ],
 
             'dashboard-usuarios-editar' => [
-                'type'    => Segment::class, // Usa Segment para aceitar o :id
+                'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/dashboard-usuarios/editar/:id',
-                    'constraints' => [
-                        'id' => '[0-9]+', // Garante que o ID é um número
-                    ],
-                    'defaults' => [
-                        'controller' => Controller\UsuarioController::class,
-                        'action'     => 'editar', // Chama o editarAction
-                    ],
-                ],
-            ],
-            
-            'dashboard-usuarios-atualizar' => [
-                'type'    => Segment::class, // Usa Segment para aceitar o :id
-                'options' => [
-                    'route'    => '/dashboard-usuarios/atualizar/:id',
+                    'route'    => '/dashboard-usuarios/editar/:id', //Rota de edição de usuário
                     'constraints' => [
                         'id' => '[0-9]+',
                     ],
                     'defaults' => [
                         'controller' => Controller\UsuarioController::class,
-                        'action'     => 'atualizar', // Chama o atualizarAction
+                        'action'     => 'editar',
+                    ],
+                ],
+            ],
+            
+            'dashboard-usuarios-atualizar' => [
+                'type'    => Segment::class, 
+                'options' => [
+                    'route'    => '/dashboard-usuarios/atualizar/:id', //Rota que envia os dados editados
+                    'constraints' => [
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'atualizar',
                     ],
                 ],
             ],
 
-            // Rota Padrão 'application'
+            
             'application' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -155,7 +155,7 @@ return [
         ],
     ],
 
-    // Registo do Serviço do Doctrine (para ser injetado)
+    // Registo do Serviço do Doctrine
     'service_manager' => [
         'factories' => [
             Service\DoctrineService::class => InvokableFactory::class,
@@ -165,7 +165,6 @@ return [
     // Registo das Factories dos Controladores
     'controllers' => [
         'factories' => [
-            // Controlador Padrão (Home)
             Controller\IndexController::class => InvokableFactory::class,
             
             // Controlador de Autenticação (Login/Logout)
@@ -174,7 +173,7 @@ return [
                 return new Controller\AuthController($doctrineService);
             },
 
-            // Controlador de Gestão de Utilizadores (Dashboard)
+            // Controlador de Gestão (Dashboard)
             Controller\UsuarioController::class => function($container) {
                 $doctrineService = $container->get(Service\DoctrineService::class);
                 return new Controller\UsuarioController($doctrineService);
@@ -182,7 +181,7 @@ return [
         ],
     ],
     
-    // Gestor de Views
+    // Views
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -197,9 +196,9 @@ return [
             
             // View do Login
             'application/auth/index'    => __DIR__ . '/../view/application/auth/index.phtml',
-            // View da Gestão de Utilizadores
+            // View da Gestão de usuários
             'application/usuario/index' => __DIR__ . '/../view/application/usuario/index.phtml', 
-            //View da Edição de Utilizadores
+            //View da Edição de usuários
             'application/usuario/editar' => __DIR__ . '/../view/application/usuario/editar.phtml',
         ],
         'template_path_stack' => [

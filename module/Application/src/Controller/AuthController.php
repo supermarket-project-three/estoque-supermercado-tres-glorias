@@ -18,11 +18,10 @@ class AuthController extends AbstractActionController
 
     public function indexAction()
     {
-        // Pega o parâmetro 'error' da URL (se existir)
         $error = $this->params()->fromQuery('error', null);
 
         $viewModel = new ViewModel([
-            'error' => $error // Passa a variável 'error' para a view
+            'error' => $error 
         ]);
         $viewModel->setTerminal(true); 
         return $viewModel;
@@ -31,62 +30,57 @@ class AuthController extends AbstractActionController
     public function autenticarAction()
     {
         
-        // 1. Verifica se a requisição é um POST
+        //Verifica se a requisição é um POST
         if ($this->getRequest()->getMethod() !== 'POST') {
             // Se não for, redireciona de volta para a página de login
             return $this->redirect()->toRoute('login');
         }
 
-        // 2. Pega os dados do formulário
+        //Pega os dados do formulário
         $data = $this->params()->fromPost();
         $email = $data['email'] ?? null;
         $senhaPura = $data['senha'] ?? null;
 
-        // 3. Busca o usuário no banco via Doctrine
+        //Busca o usuário no banco
         $usuario = $this->em->getRepository(Usuario::class)->findOneBy(['email' => $email]);
 
-        // 4. Verifica se o usuário existe E se a senha está correta
+        //Verifica se o usuário existe E se a senha está correta
         if ($usuario && $usuario->verificarSenha($senhaPura)) {
             
-            // SUCESSO!
-            // 5. Inicia a sessão PHP (usando o componente de Sessão do Laminas)
-            $session = new Container('user'); // Cria um "espaço" de sessão chamado 'user'
+            // Inicia a sessão PHP (usando Sessão do Laminas)
+            $session = new Container('user'); // Cria sessão chamada user
             $session->id = $usuario->getId();
             $session->tipo = $usuario->getTipo();
             $session->nome = $usuario->getNome();
 
-            // 6. Redireciona para a 'home' (/)
-            // (Mais tarde, podemos criar a rota 'admin' e redirecionar para lá)
+            //Redireciona para o inicio
             if ($usuario->getTipo() === 'admin') {
-            // Se for Admin, vai para o dashboard
+            //Se for Admin, vai para o dashboard
             return $this->redirect()->toRoute('dashboard');
             } else {
-                // Se for Responsável, vai para o estoque
+                //Se for Responsável, vai para o estoque
                 return $this->redirect()->toRoute('estoque');
             }
             
         } else {
             
-            // FALHA!
-            // 7. Redireciona de volta para o login com uma mensagem de erro
-            // 1. Obtém o URL da rota 'login'
+            // Redireciona de volta para o login com uma mensagem de erro
+            // Obtém o URL da rota 'login'
             $url = $this->url()->fromRoute('login');
             
-            // 2. Adiciona os parâmetros de Query String
             $url .= '?error=invalid';
             
-            // 3. Redireciona para o URL completo
             return $this->redirect()->toUrl($url);
         }
     }
 
     /**
-     * Ação GET /logout
+     * Ação /logout
      * Destrói a sessão e redireciona para o login
      */
     public function logoutAction()
     {
-        // Pega o container da sessão 'user'
+        // Pega o container da sessão user
         $session = new Container('user');
         
         // Destrói os dados da sessão

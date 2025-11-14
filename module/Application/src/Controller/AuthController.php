@@ -57,7 +57,13 @@ class AuthController extends AbstractActionController
 
             // 6. Redireciona para a 'home' (/)
             // (Mais tarde, podemos criar a rota 'admin' e redirecionar para lá)
-            return $this->redirect()->toRoute('home');
+            if ($usuario->getTipo() === 'admin') {
+            // Se for Admin, vai para o dashboard
+            return $this->redirect()->toRoute('dashboard');
+            } else {
+                // Se for Responsável, vai para o estoque
+                return $this->redirect()->toRoute('estoque');
+            }
             
         } else {
             

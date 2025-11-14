@@ -11,6 +11,7 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
+            // Rota Padrão (Home)
             'home' => [
                 'type'    => Literal::class,
                 'options' => [
@@ -21,15 +22,15 @@ return [
                     ],
                 ],
             ],
-
-
+            
+            // --- Rotas de Autenticação ---
             'login' => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/login', // URL para MOSTRAR a página de login
                     'defaults' => [
                         'controller' => Controller\AuthController::class,
-                        'action'     => 'index', // Chama o método indexAction
+                        'action'     => 'index',
                     ],
                 ],
             ],
@@ -39,12 +40,10 @@ return [
                     'route'    => '/autenticar', // URL para PROCESSAR o login (POST)
                     'defaults' => [
                         'controller' => Controller\AuthController::class,
-                        'action'     => 'autenticar', // Chama o método autenticarAction
+                        'action'     => 'autenticar',
                     ],
                 ],
             ],
-
-            // --- ROTA DE LOGOUT ---
             'logout' => [
                 'type'    => Literal::class,
                 'options' => [
@@ -55,7 +54,52 @@ return [
                     ],
                 ],
             ],
+            
+            // --- Rotas de Destino (Pós-Login) ---
+            'dashboard' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/dashboard',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class, // (Por enquanto, aponta para Home)
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'estoque' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/estoque',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class, // (Por enquanto, aponta para Home)
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
 
+            // --- Rotas de Gestão de Utilizadores (Dashboard) ---
+            'dashboard-usuarios' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/dashboard-usuarios', // O URL da página de gestão
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'dashboard-usuarios-salvar' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/dashboard-usuarios/salvar', // O URL que o form envia
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'salvar',
+                    ],
+                ],
+            ],
+
+            // Rota Padrão 'application'
             'application' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -69,27 +113,34 @@ return [
         ],
     ],
 
+    // Registo do Serviço do Doctrine (para ser injetado)
     'service_manager' => [
         'factories' => [
             Service\DoctrineService::class => InvokableFactory::class,
         ],
     ],
 
+    // Registo das Factories dos Controladores
     'controllers' => [
         'factories' => [
+            // Controlador Padrão (Home)
             Controller\IndexController::class => InvokableFactory::class,
             
-            //criar o AuthController
-            Controller\AuthController::class => function($container) { // <<< ADICIONADO
-                // Pega o DoctrineService
+            // Controlador de Autenticação (Login/Logout)
+            Controller\AuthController::class => function($container) {
                 $doctrineService = $container->get(Service\DoctrineService::class);
-                
-                // Cria o Controller e "injeta" o serviço nele
                 return new Controller\AuthController($doctrineService);
+            },
+
+            // Controlador de Gestão de Utilizadores (Dashboard)
+            Controller\UsuarioController::class => function($container) {
+                $doctrineService = $container->get(Service\DoctrineService::class);
+                return new Controller\UsuarioController($doctrineService);
             },
         ],
     ],
     
+    // Gestor de Views
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -97,13 +148,15 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'layout/layout'             => __DIR__ . '/../view/layout/layout.phtml',
+            'application/index/index'   => __DIR__ . '/../view/application/index/index.phtml',
+            'error/404'                 => __DIR__ . '/../view/error/404.phtml',
+            'error/index'               => __DIR__ . '/../view/error/index.phtml',
             
-            // Adiciona o caminho para a view de login
-            'application/auth/index' => __DIR__ . '/../view/application/auth/index.phtml',
+            // View do Login
+            'application/auth/index'    => __DIR__ . '/../view/application/auth/index.phtml',
+            // View da Gestão de Utilizadores
+            'application/usuario/index' => __DIR__ . '/../view/application/usuario/index.phtml', 
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

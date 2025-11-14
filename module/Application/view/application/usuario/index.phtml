@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/img/favicon-tres-glorias.ico">
+    <!--Fontes-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!--Estilos-->
+    <link rel="stylesheet" href="/css/preset.css">
+    <link rel="stylesheet" href="/css/dashboard-usuarios.css">
+    <title>Dashboard</title>
+
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="left-header">
+            <h1>Gestão Usuários</h1>
+        </div>
+        <div class="right-header">
+            <nav>
+                <ul>
+                    <li><a href="<?= $this->url('dashboard') ?>">Inicio</a></li>
+                    <li><a href="<?= $this->url('dashboard-usuarios') ?>">Usuários</a></li>
+                    <li><a href="<?= $this->url('logout') ?>">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+
+
+        </header>
+
+    <main class="dashboard-flex">
+
+        <section class="register-user">
+
+            <h2>Cadastro de usuários</h2>
+
+            <form id="form" method="POST" action="<?=  $this->url('dashboard-usuarios-salvar'); ?>">
+
+                <p><label for="inNome">Nome: </label><input type="text" id="inNome" name="nome"></p>
+
+                <p><label for="inEmail">Email: </label><input type="email" id="inEmail" name="email"></p>
+
+                <p><label for="inSenha: ">Senha: </label><input type="text" id="inSenha" name="senha"></p>
+
+                <div class="radio">
+                    <p>Tipo: </p>
+                    <p><input id="btAdmin" type="radio" name="tipo" value="admin"> Admin</p>
+                    <p><input id="btSetor" type="radio" name="tipo" value="responsavel"> Responsável Setor</p>
+                </div>
+
+                <p class="close" id="inSetores">
+                    <label for="inSetor">Setor: </label>
+                    <select name="setor_id" id="inSetor">
+                        <option value="">
+                            --Selecione um Setor--
+                        </option>
+                        <?php 
+                            foreach ($this->setores as $setor){
+                                echo '<option value="' . $setor->getId() . '">';
+                                echo $this->escapeHtml($setor->getNome());
+                                echo '</option>';
+                            }
+                        ?>
+                    </select>
+                </p>
+
+                <button class="buttonVerde" type="submit">Cadastrar Usuário</button>
+
+            </form>
+
+        </section>
+
+        <section class="list-users">
+
+            <h2>Usuários Cadastrados</h2>
+
+            <div class="div-list">
+                <table id="list">
+                    <thead id="list-header">
+                        <tr>
+                            <td>ID</td>
+                            <td>NOME</td>
+                            <td>EMAIL</td>
+                            <td>TIPO</td>
+                            <td>SETOR</td>
+                            <td>OPTIONS </td>
+                        </tr>
+                    </thead>
+                    <tbody id="list-body">
+                            <?php
+                            foreach ($this->usuarios as $usuario) {
+                                echo '<tr>';
+                                    echo '<td>' . $this->escapeHtml($usuario->getId()) . '</td>';
+                                    echo '<td>' . $this->escapeHtml($usuario->getNome()) . '</td>';
+                                    echo '<td>' . $this->escapeHtml($usuario->getEmail()) . '</td>';
+                                    echo '<td>' . $this->escapeHtml($usuario->getTipo()) . '</td>';
+                                    $nomeSetor = $usuario->getSetor() ? $this->escapeHtml($usuario->getSetor()->getNome()) : 'N/A';
+                                    echo '<td>' . $nomeSetor . '</td>';
+                
+                                    echo '<td>';
+            
+                                    echo '<a class="edit" href="#">Editar</a> | '; 
+                                    
+                                    // Cria o URL para a rota 'dashboard-usuarios-apagar', passando o ID do usuário
+                                    $urlApagar = $this->url('dashboard-usuarios-apagar', ['id' => $usuario->getId()]);
+                                    
+                                    // Adiciona uma confirmação em JavaScript
+                                    echo '<a class="delete" href="' . $urlApagar . '" onclick="return confirm(\'Tem a certeza que quer apagar este utilizador?\')">Apagar</a>';
+                                    
+                                    echo '</td>';
+                                echo '</tr>';
+                            }
+                            ?>
+                            
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        const radioSetor = document.getElementById("btSetor");
+        const radioAdmin = document.getElementById("btAdmin");
+        const setores = document.getElementById("inSetores");
+
+        radioSetor.addEventListener("change", () => {
+            setores.className = "open";
+        });
+
+        radioAdmin.addEventListener("change", () => {
+            setores.className = "close";
+        });
+    </script>
+
+</body>
+</html>

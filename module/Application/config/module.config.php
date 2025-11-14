@@ -99,6 +99,20 @@ return [
                 ],
             ],
 
+            'dashboard-usuarios-apagar' => [
+                'type'    => Segment::class, // Usa Segment para aceitar parâmetros
+                'options' => [
+                    'route'    => '/dashboard-usuarios/apagar/:id', // O URL com o parâmetro :id
+                    'constraints' => [
+                        'id' => '[0-9]+', 
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'apagar',
+                    ],
+                ],
+            ],
+
             // Rota Padrão 'application'
             'application' => [
                 'type'    => Segment::class,

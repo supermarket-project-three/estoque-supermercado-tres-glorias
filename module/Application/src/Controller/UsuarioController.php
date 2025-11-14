@@ -29,10 +29,14 @@ class UsuarioController extends AbstractActionController
         $setores = $this->em->getRepository(Setor::class)->findAll();
 
         // 3. Envia usuários E setores para a view
-        return new ViewModel([
+        $viewModel = new ViewModel([
             'usuarios' => $usuarios,
             'setores'  => $setores // <<< NOVO
         ]);
+
+        $viewModel->setTerminal(true);
+
+        return $viewModel;
     }
 
     /**
@@ -59,7 +63,6 @@ class UsuarioController extends AbstractActionController
         $novoUsuario->setTipo($data['tipo']);
         $novoUsuario->setSenhaComHash($data['senha']);
 
-        // --- INÍCIO DA LÓGICA DE SETOR ---
         // Se for 'responsavel' E um setor foi enviado
         if ($data['tipo'] === 'responsavel' && !empty($data['setor_id'])) {
             // Busca o objeto Setor no banco
@@ -70,11 +73,37 @@ class UsuarioController extends AbstractActionController
                 $novoUsuario->setSetor($setorObj); 
             }
         }
-        // --- FIM DA LÓGICA DE SETOR ---
 
         $this->em->persist($novoUsuario);
         $this->em->flush();
 
+        return $this->redirect()->toRoute('dashboard-usuarios');
+    }
+
+    public function apagarAction()
+    {
+        // 1. Pega o ID da rota (do URL)
+        $id = (int) $this->params()->fromRoute('id', 0);
+
+        if ($id === 0) {
+            // Se não houver ID, volta
+            return $this->redirect()->toRoute('dashboard-usuarios');
+        }
+
+        try {
+            // 2. Encontra o usuário no banco
+            $usuario = $this->em->getRepository(Usuario::class)->find($id);
+
+            if ($usuario) {
+                // 3. Remove o usuário
+                $this->em->remove($usuario);
+                $this->em->flush(); // Aplica a remoção no banco
+            }
+        } catch (\Exception $e) {
+            echo 'erro: ' . $e->getMessage();
+        }
+
+        // 4. Redireciona de volta para a lista
         return $this->redirect()->toRoute('dashboard-usuarios');
     }
 }

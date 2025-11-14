@@ -1,0 +1,152 @@
+/* Conteúdo para: public/css/cadastrosetor.css */
+
+/* 1. Importando estilos da preset */
+@import url('preset.css');
+
+/* 2. CORREÇÃO DE LAYOUT 
+   (Baseado nos estilos do seu 'estoque.css')
+*/
+.container-pagina-principal {
+    min-height: 95vh;
+}
+.main-content {
+    width: 90%;
+    max-width: 1000px; /* Mesmo max-width do estoque */
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: left; /* Tira o text-align: center do preset */
+    flex-grow: 1; 
+}
+body {
+    font-family: var(--fonte2); 
+    background-color: #fcfcfc; 
+}
+
+/* 3. CABEÇALHO DA PÁGINA 
+   (Baseado no seu 'header-estoque')
+*/
+.header-setores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--cor-identidade-verde);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+.header-setores h1 {
+    font-family: var(--fonte1);
+    font-size: 2.5rem; /* Mesmo tamanho do estoque */
+    color: var(--cor-identidade-preto);
+}
+
+/* 4. FORMULÁRIO DE CADASTRO 
+   (Estilo baseado no seu modal)
+*/
+.form-cadastro-setor {
+    width: 100%;
+    max-width: 600px; /* Um bom tamanho para um form simples */
+    margin: 0 auto 40px auto; /* Centraliza o formulário */
+    border: 1px solid #eee;
+    padding: 25px 30px;
+    border-radius: 8px;
+    background-color: var(--cor-identidade-branco);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.form-cadastro-setor h3 {
+    font-family: var(--fonte1);
+    color: var(--cor-identidade-preto);
+    margin-top: 0;
+    border-bottom: 2px solid var(--cor-identidade-verde);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+.form-campo {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.form-campo label {
+    font-family: var(--fonte1);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.form-campo input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-family: var(--fonte2);
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+.form-botao-salvar {
+    text-align: right;
+    margin-top: 25px;
+}
+
+/* 5. LISTA DE SETORES CADASTRADOS 
+   (Estilo baseado na sua 'tabela-estoque-produtos')
+*/
+.lista-setores-cadastrados {
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto 0 auto; /* Centraliza a lista */
+}
+.lista-setores-cadastrados h3 {
+    font-family: var(--fonte2);
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+.lista-setores-ul {
+    list-style: none;
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: var(--cor-identidade-branco);
+}
+.lista-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    font-family: var(--fonte1);
+    border-bottom: 1px solid #f0f0f0;
+}
+.lista-item:last-child {
+    border-bottom: none;
+}
+.lista-item:nth-child(even) {
+     background-color: #fcfcfc; /* Zebra */
+}
+.lista-cabecalho {
+    font-family: var(--fonte1);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+    text-transform: uppercase;
+    background-color: #f9f9f9;
+}
+.setor-nome {
+    flex-grow: 1;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+.setor-acoes {
+    width: 100px;
+    text-align: center;
+}
+.button-excluir {
+    font-family: var(--fonte1);
+    font-weight: bold;
+    color: #c0392b; /* Vermelho */
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 5px;
+}
+.button-excluir:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

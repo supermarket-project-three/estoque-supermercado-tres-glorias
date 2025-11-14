@@ -21,6 +21,29 @@ return [
                     ],
                 ],
             ],
+
+
+            'login' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/login', // URL para MOSTRAR a página de login
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action'     => 'index', // Chama o método indexAction
+                    ],
+                ],
+            ],
+            'autenticar' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/autenticar', // URL para PROCESSAR o login (POST)
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action'     => 'autenticar', // Chama o método autenticarAction
+                    ],
+                ],
+            ],
+
             'application' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -34,23 +57,27 @@ return [
         ],
     ],
 
-    // ### INÍCIO DA ADIÇÃO (ETAPA 4) ###
-    // Registra os serviços (como a conexão com o Doctrine)
     'service_manager' => [
         'factories' => [
-            // Diz ao Laminas para criar o DoctrineService usando
-            // uma factory simples (InvokableFactory)
             Service\DoctrineService::class => InvokableFactory::class,
         ],
     ],
-    // ### FIM DA ADIÇÃO ###
 
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-            // (Vamos adicionar o ProdutoController aqui na próxima etapa)
+            
+            //criar o AuthController
+            Controller\AuthController::class => function($container) { // <<< ADICIONADO
+                // Pega o DoctrineService
+                $doctrineService = $container->get(Service\DoctrineService::class);
+                
+                // Cria o Controller e "injeta" o serviço nele
+                return new Controller\AuthController($doctrineService);
+            },
         ],
     ],
+    
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -62,6 +89,9 @@ return [
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            
+            // Adiciona o caminho para a view de login
+            'application/auth/index' => __DIR__ . '/../view/index.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

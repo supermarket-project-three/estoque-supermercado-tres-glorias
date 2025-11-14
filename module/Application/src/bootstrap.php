@@ -37,3 +37,5 @@ $entityManager = new EntityManager(
     DriverManager::getConnection($connection, $config),
     $config
 );
+
+return $entityManager;

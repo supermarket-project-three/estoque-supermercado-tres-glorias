@@ -33,9 +33,22 @@ return [
             ],
         ],
     ],
+
+    // ### INÍCIO DA ADIÇÃO (ETAPA 4) ###
+    // Registra os serviços (como a conexão com o Doctrine)
+    'service_manager' => [
+        'factories' => [
+            // Diz ao Laminas para criar o DoctrineService usando
+            // uma factory simples (InvokableFactory)
+            Service\DoctrineService::class => InvokableFactory::class,
+        ],
+    ],
+    // ### FIM DA ADIÇÃO ###
+
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
+            // (Vamos adicionar o ProdutoController aqui na próxima etapa)
         ],
     ],
     'view_manager' => [

@@ -141,6 +141,38 @@ return [
                 ],
             ],
 
+            'dashboard-setores' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/dashboard-setores',
+                    'defaults' => [
+                        'controller' => Controller\SetorController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'dashboard-setores-salvar' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/dashboard-setores/salvar',
+                    'defaults' => [
+                        'controller' => Controller\SetorController::class,
+                        'action'     => 'salvar',
+                    ],
+                ],
+            ],
+            'dashboard-setores-apagar' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/dashboard-setores/apagar/:id',
+                    'constraints' => ['id' => '[0-9]+'],
+                    'defaults' => [
+                        'controller' => Controller\SetorController::class,
+                        'action'     => 'apagar',
+                    ],
+                ],
+            ],
+
             
             'application' => [
                 'type'    => Segment::class,
@@ -165,7 +197,11 @@ return [
     // Registo das Factories dos Controladores
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+            // Factory para o IndexController (para injetar o Doctrine)
+            Controller\IndexController::class => function($container) {
+                $doctrineService = $container->get(Service\DoctrineService::class);
+                return new Controller\IndexController($doctrineService);
+            },
             
             // Controlador de Autenticação (Login/Logout)
             Controller\AuthController::class => function($container) {
@@ -173,10 +209,16 @@ return [
                 return new Controller\AuthController($doctrineService);
             },
 
-            // Controlador de Gestão (Dashboard)
+            // Controlador de Gestão de Usuários(Dashboard)
             Controller\UsuarioController::class => function($container) {
                 $doctrineService = $container->get(Service\DoctrineService::class);
                 return new Controller\UsuarioController($doctrineService);
+            },
+
+            //Controlador dos Setores (Dashboard)
+            Controller\SetorController::class => function($container) {
+                $doctrineService = $container->get(Service\DoctrineService::class);
+                return new Controller\SetorController($doctrineService);
             },
         ],
     ],
@@ -200,6 +242,9 @@ return [
             'application/usuario/index' => __DIR__ . '/../view/application/usuario/index.phtml', 
             //View da Edição de usuários
             'application/usuario/editar' => __DIR__ . '/../view/application/usuario/editar.phtml',
+            //View da Gestão de setores
+            'application/setor/index' => __DIR__ . '/../view/application/setor/index.phtml',
+
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

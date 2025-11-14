@@ -6,6 +6,36 @@
 /* 2. CORREÇÃO DE LAYOUT 
    (Baseado nos estilos do seu 'estoque.css')
 */
+
+.main-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid #00875E; /* A cor verde do seu projeto */
+    margin-bottom: 2rem;
+}
+
+.main-header ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 30px;
+    gap: 20px;
+    list-style-type: none;
+}
+
+.main-header ul li a {
+    text-decoration: none;
+    background-color: #00875E;
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+}
+
 .container-pagina-principal {
     min-height: 95vh;
 }

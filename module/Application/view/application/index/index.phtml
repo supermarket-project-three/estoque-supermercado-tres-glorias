@@ -1,17 +1,122 @@
-<div class="p-5 mb-4 bg-light rounded-3">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
     
-    <?php if ($this->nomeUsuario): ?>
-        <h1 class="display-4">Bem-vindo, <?= $this->escapeHtml($this->nomeUsuario) ?>!</h1>
-        <p>Você está logado no Sistema de Estoque Três Glórias.</p>
-        <p>
-            </p>
+    <link rel="shortcut icon" href="<?php echo $this->basePath('img/favicon-tres-glorias.ico'); ?>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,00..900&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <?php else: ?>
-        <h1 class="display-4">Bem-vindo ao Sistema de Estoque</h1>
-        <p>Por favor, faça o login para continuar.</p>
-        <p>
-            <a class="btn btn-primary btn-lg" href="<?= $this->url('login') ?>">Fazer Login</a>
-        </p>
-    <?php endif; ?>
+    <link rel="stylesheet" href="<?php echo $this->basePath('css/preset.css'); ?>">
+    <link rel="stylesheet" href="<?php echo $this->basePath('css/dashboard.css'); ?>">
+</head>
+<body>
+    <header class="main-header">
+        <div class="left-header">
+            <h1>Visão Geral do Estoque</h1>
+        </div>
+        <div class="right-header">
+            <nav>
+                <ul>
+                    <li><a href="<?php echo $this->url('dashboard'); ?>">Inicio</a></li>
+                    <li><a href="<?php echo $this->url('dashboard-usuarios'); ?>">Usuários</a></li>
+                    <li><a href="<?php echo $this->url('dashboard-setores'); ?>">Setores</a></li>
+                    <li><a href="<?php echo $this->url('logout'); ?>">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-</div>
+    <main class="dashboard-grid">
+
+        <section class="widget kpi-card">
+            <h3>Itens com Estoque Baixo</h3>
+            <div class="kpi-value"><?php echo $this->kpi_estoque_baixo; ?></div>
+        </section>
+
+        <section class="widget kpi-card">
+            <h3>Itens Esgotados</h3>
+            <div class="kpi-value"><?php echo $this->kpi_esgotados; ?></div> 
+        </section>
+
+        <section class="widget kpi-card">
+            <h3>Total de Produtos</h3>
+            <div class="kpi-value"><?php echo $this->kpi_total_produtos; ?></div>
+        </section>
+
+        <section class="widget kpi-card">
+            <h3>Valor do Estoque (R$)</h3>
+            <div class="kpi-value">R$ <?php echo number_format($this->kpi_valor_total, 2, ',', '.'); ?></div>
+        </section>
+
+        
+        <section class="widget widget-large" id="alerts">
+            <h2>⚠️ Alertas de Reposição</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Categoria (Setor)</th>
+                        <th>Qtd. Atual</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    // Se não houver produtos, mostra uma linha
+                    if (empty($this->produtosEmAlerta)) {
+                        echo '<tr><td colspan="4">Nenhum produto em alerta no momento.</td></tr>';
+                    }
+
+                    foreach ($this->produtosEmAlerta as $produto) {
+                        // Define o status baseado no estoque
+                        $status = 'Estoque em Ordem';
+                        $classeStatus = 'status-ok';
+                        
+                        if ($produto->getEstoqueAtual() <= 0) {
+                            $status = 'Sem Estoque';
+                            $classeStatus = 'status-esgotado';
+                        } elseif ($produto->getEstoqueAtual() <= $produto->getEstoqueMinimo()) {
+                            $status = 'Estoque Baixo';
+                            $classeStatus = 'status-baixo';
+                        }
+                        
+                        echo '<tr class="' . $classeStatus . '">';
+                            echo '<td>' . $this->escapeHtml($produto->getNome()) . '</td>';
+                            echo '<td>' . $this->escapeHtml($produto->getSetor()->getNome()) . '</td>';
+                            echo '<td>' . $this->escapeHtml($produto->getEstoqueAtual()) . '</td>';
+                            echo '<td>' . $status . '</td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="widget" id="activity">
+            <h2>Últimas Alterações</h2>
+            <ul class="activity-feed">
+                <?php
+                if (empty($this->ultimasAlteracoes)) {
+                    echo '<li>Nenhuma alteração recente registrada.</li>';
+                }
+
+                foreach ($this->ultimasAlteracoes as $movimento) {
+                    echo '<li>';
+                    echo '<strong>' . $this->escapeHtml($movimento->getProduto()->getNome()) . '</strong> ';
+                    echo 'alterada para ' . $this->escapeHtml($movimento->getQuantidade()) . '.';
+                    echo '<small>Motivo: ' . $this->escapeHtml($movimento->getTipo()) . '</small>';
+                    echo '</li>';
+                }
+                ?>
+            </ul>
+        </section>
+
+    </main>
+    
+    </body>
+</html>

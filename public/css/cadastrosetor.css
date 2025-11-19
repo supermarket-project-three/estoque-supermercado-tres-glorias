@@ -1,12 +1,36 @@
-/* Conteúdo para: public/css/cadastrosetor.css */
-
-/* 1. Importando estilos da preset */
+/* ============================================================
+   DEFINIÇÕES GERAIS E FONTES
+   ============================================================ */
 @import url('preset.css');
 
-/* 2. CORREÇÃO DE LAYOUT 
-   (Baseado nos estilos do seu 'estoque.css')
-*/
+:root {
+    /* Garantindo que as fontes funcionem mesmo se o preset falhar */
+    --fonte-titulo: 'Montserrat', sans-serif; /* Para Títulos */
+    --fonte-corpo: 'Poppins', sans-serif;     /* Para Textos e Inputs */
+    --cor-verde: #00875E;
+    --cor-vermelha: #c0392b;
+}
 
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fonte-corpo);
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1, h2, h3 {
+    font-family: var(--fonte-titulo);
+    color: #333;
+}
+
+/* ============================================================
+   CABEÇALHO (Igual ao de Usuários)
+   ============================================================ */
 .main-header {
     display: flex;
     flex-direction: row;
@@ -14,169 +38,242 @@
     align-items: center;
     background-color: #ffffff;
     padding: 1.5rem 2rem;
-    border-bottom: 2px solid #00875E; /* A cor verde do seu projeto */
+    border-bottom: 2px solid var(--cor-verde); 
     margin-bottom: 2rem;
 }
 
-.main-header ul{
+.main-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.main-header ul {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
-    margin-right: 30px;
-    gap: 20px;
+    gap: 15px;
     list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .main-header ul li a {
     text-decoration: none;
-    background-color: #00875E;
-    padding: 10px;
+    background-color: var(--cor-verde);
+    padding: 10px 15px;
     border-radius: 20px;
     color: white;
+    font-family: var(--fonte-corpo);
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: inline-block; /* Importante para não grudar */
+    transition: background-color 0.3s;
 }
 
-.container-pagina-principal {
-    min-height: 95vh;
+.main-header ul li a:hover {
+    background-color: #006d4b;
 }
+
+/* ============================================================
+   LAYOUT PRINCIPAL
+   ============================================================ */
+.container-pagina-principal {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .main-content {
     width: 90%;
-    max-width: 1000px; /* Mesmo max-width do estoque */
-    margin-top: 30px;
-    margin-bottom: 30px;
-    text-align: left; /* Tira o text-align: center do preset */
+    max-width: 800px; /* Largura controlada para ficar bonito */
+    margin-top: 20px;
     flex-grow: 1; 
 }
-body {
-    font-family: var(--fonte2); 
-    background-color: #fcfcfc; 
-}
 
-/* 3. CABEÇALHO DA PÁGINA 
-   (Baseado no seu 'header-estoque')
-*/
-.header-setores {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid var(--cor-identidade-verde);
-    padding-bottom: 10px;
-    margin-bottom: 30px;
-}
-.header-setores h1 {
-    font-family: var(--fonte1);
-    font-size: 2.5rem; /* Mesmo tamanho do estoque */
-    color: var(--cor-identidade-preto);
-}
-
-/* 4. FORMULÁRIO DE CADASTRO 
-   (Estilo baseado no seu modal)
-*/
+/* ============================================================
+   FORMULÁRIO DE CADASTRO (CARD SUPERIOR)
+   ============================================================ */
 .form-cadastro-setor {
-    width: 100%;
-    max-width: 600px; /* Um bom tamanho para um form simples */
-    margin: 0 auto 40px auto; /* Centraliza o formulário */
-    border: 1px solid #eee;
-    padding: 25px 30px;
-    border-radius: 8px;
-    background-color: var(--cor-identidade-branco);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    border-top: 5px solid var(--cor-verde);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
 }
+
 .form-cadastro-setor h3 {
-    font-family: var(--fonte1);
-    color: var(--cor-identidade-preto);
     margin-top: 0;
-    border-bottom: 2px solid var(--cor-identidade-verde);
+    margin-bottom: 20px;
     padding-bottom: 10px;
-    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    color: var(--cor-verde);
 }
+
 .form-campo {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
 }
+
 .form-campo label {
-    font-family: var(--fonte1);
     font-weight: 600;
-    margin-bottom: 5px;
-}
-.form-campo input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    font-family: var(--fonte2);
+    margin-bottom: 8px;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-}
-.form-botao-salvar {
-    text-align: right;
-    margin-top: 25px;
 }
 
-/* 5. LISTA DE SETORES CADASTRADOS 
-   (Estilo baseado na sua 'tabela-estoque-produtos')
-*/
-.lista-setores-cadastrados {
+.form-campo input[type="text"] {
     width: 100%;
-    max-width: 800px;
-    margin: 40px auto 0 auto; /* Centraliza a lista */
+    padding: 12px;
+    font-family: var(--fonte-corpo);
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    outline: none;
 }
+
+.form-campo input[type="text"]:focus {
+    border-color: var(--cor-verde);
+    background-color: white;
+}
+
+.form-botao-salvar {
+    text-align: right;
+}
+
+.buttonVerde {
+    background-color: var(--cor-verde);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-family: var(--fonte-titulo);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.buttonVerde:hover {
+    background-color: #006d4b;
+}
+
+/* ============================================================
+   LISTA DE SETORES (CARD INFERIOR)
+   ============================================================ */
 .lista-setores-cadastrados h3 {
-    font-family: var(--fonte2);
-    font-weight: 600;
-    font-size: 1.3rem;
-    margin-bottom: 15px;
+    text-align: center;
+    color: var(--cor-verde);
+    margin-bottom: 20px;
 }
+
 .lista-setores-ul {
     list-style: none;
-    width: 100%;
+    padding: 0;
     border: 1px solid #eee;
     border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    background-color: var(--cor-identidade-branco);
 }
+
 .lista-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    font-family: var(--fonte1);
     border-bottom: 1px solid #f0f0f0;
 }
+
 .lista-item:last-child {
     border-bottom: none;
 }
-.lista-item:nth-child(even) {
-     background-color: #fcfcfc; /* Zebra */
-}
+
 .lista-cabecalho {
-    font-family: var(--fonte1);
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #555;
-    text-transform: uppercase;
-    background-color: #f9f9f9;
-}
-.setor-nome {
-    flex-grow: 1;
-    font-weight: 500;
-    font-size: 1.1rem;
-}
-.setor-acoes {
-    width: 100px;
-    text-align: center;
-}
-.button-excluir {
-    font-family: var(--fonte1);
+    background-color: var(--cor-verde);
+    color: white;
     font-weight: bold;
-    color: #c0392b; /* Vermelho */
+    font-family: var(--fonte-titulo);
+}
+
+.setor-nome {
+    font-weight: 500;
+}
+
+.button-excluir {
+    color: var(--cor-vermelha);
+    font-weight: bold;
     text-decoration: none;
     font-size: 0.9rem;
-    padding: 5px;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s;
 }
+
 .button-excluir:hover {
-    text-decoration: underline;
-    cursor: pointer;
+    background-color: #fee;
+    border-color: #fab;
+}
+
+/* ============================================================
+   RODAPÉ
+   ============================================================ */
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    color: #777;
+    font-size: 0.85rem;
+}
+.titulo-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.titulo-footer h2 { font-size: 1.2rem; margin: 0; }
+
+
+/* ============================================================
+   RESPONSIVIDADE (MOBILE)
+   ============================================================ */
+@media screen and (max-width: 768px) {
+    
+    /* Cabeçalho empilhado */
+    .main-header {
+        flex-direction: column;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .main-header h1 {
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
+
+    .main-header ul {
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    /* Conteúdo Principal */
+    .main-content {
+        width: 95%; /* Usa mais espaço lateral */
+    }
+
+    .form-cadastro-setor {
+        padding: 20px;
+    }
+
+    /* Lista de setores mais compacta */
+    .lista-item {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
 }

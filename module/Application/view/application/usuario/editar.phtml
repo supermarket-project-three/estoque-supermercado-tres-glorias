@@ -31,6 +31,7 @@ $idSetorAtual = $usuario->getSetor() ? $usuario->getSetor()->getId() : null;
             <nav>
                 <ul>
                     <li><a href="<?php echo $this->url('dashboard'); ?>">Inicio</a></li>
+                    <li><a href="<?php echo $this->url('dashboard-produtos'); ?>">Produtos</a></li>
                     <li><a href="<?php echo $this->url('dashboard-usuarios'); ?>">Usuários</a></li>
                     <li><a href="<?= $this->url('dashboard-setores') ?>">Setores</a></li>
                     <li><a href="<?php echo $this->url('logout'); ?>">Logout</a></li>

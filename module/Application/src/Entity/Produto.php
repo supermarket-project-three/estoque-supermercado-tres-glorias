@@ -21,30 +21,27 @@ class Produto
     #[ORM\Column(type: "string", length: 150)]
     private string $nome;
 
-    #[ORM\Column(type: "text", nullable: true)]
-    private ?string $descricao; // O '?' indica que pode ser nulo
+    #[ORM\Column(type: "string", length: 100)]
+    private string $marca;
 
-    #[ORM\Column(type: "string", length: 70, nullable: true)]
-    private ?string $codigoBarras; // O '?' indica que pode ser nulo
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $descricao;
 
     #[ORM\ManyToOne(targetEntity: Setor::class, inversedBy: "produtos")]
     #[ORM\JoinColumn(name: "setor_id", referencedColumnName: "id")]
     private Setor $setor;
 
     #[ORM\Column(type: "integer")]
-    private int $estoqueAtual;
-
-    #[ORM\Column(type: "integer")]
-    private int $estoqueMinimo;
+    private int $quantidade = 0;
 
     #[ORM\Column(type: "boolean")]
     private bool $ativo = true;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
-    private float $preco = 0; // Preço do produto
+    private float $preco = 0;
 
     #[ORM\OneToMany(mappedBy: "produto", targetEntity: Pedido::class)]
-    private Collection $pedidos; // Tipado como Collection
+    private Collection $pedidos;
 
     public function __construct()
     {
@@ -69,6 +66,17 @@ class Produto
         return $this;
     }
 
+    public function getMarca(): string
+    {
+        return $this->marca;
+    }
+
+    public function setMarca(string $marca): self
+    {
+        $this->marca = $marca;
+        return $this;
+    }
+
     public function getDescricao(): ?string
     {
         return $this->descricao;
@@ -80,47 +88,25 @@ class Produto
         return $this;
     }
 
-    public function getCodigoBarras(): ?string
-    {
-        return $this->codigoBarras;
-    }
-
-    public function setCodigoBarras(?string $codigoBarras): self
-    {
-        $this->codigoBarras = $codigoBarras;
-        return $this;
-    }
-
     public function getSetor(): Setor
     {
         return $this->setor;
     }
 
-    public function setSetor(?Setor $setor): self
+    public function setSetor(Setor $setor): self
     {
         $this->setor = $setor;
         return $this;
     }
 
-    public function getEstoqueAtual(): int
+    public function getQuantidade(): int
     {
-        return $this->estoqueAtual;
+        return $this->quantidade;
     }
 
-    public function setEstoqueAtual(int $estoqueAtual): self
+    public function setQuantidade(int $quantidade): self
     {
-        $this->estoqueAtual = $estoqueAtual;
-        return $this;
-    }
-
-    public function getEstoqueMinimo(): int
-    {
-        return $this->estoqueMinimo;
-    }
-
-    public function setEstoqueMinimo(int $estoqueMinimo): self
-    {
-        $this->estoqueMinimo = $estoqueMinimo;
+        $this->quantidade = $quantidade;
         return $this;
     }
 
@@ -153,5 +139,4 @@ class Produto
     {
         return $this->pedidos;
     }
-
 }

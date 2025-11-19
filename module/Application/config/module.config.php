@@ -71,7 +71,7 @@ return [
                 'options' => [
                     'route'    => '/estoque',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => Controller\EstoqueController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -173,6 +173,87 @@ return [
                 ],
             ],
 
+            'dashboard-produtos' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/dashboard-produtos',
+                    'defaults' => [
+                        'controller' => Controller\ProdutoController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'dashboard-produtos-salvar' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/dashboard-produtos/salvar',
+                    'defaults' => [
+                        'controller' => Controller\ProdutoController::class,
+                        'action'     => 'salvar',
+                    ],
+                ],
+            ],
+            // (Opcional: Rota para editar/apagar depois)
+            'dashboard-produtos-apagar' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/dashboard-produtos/apagar/:id',
+                    'constraints' => ['id' => '[0-9]+'],
+                    'defaults' => [
+                        'controller' => Controller\ProdutoController::class,
+                        'action'     => 'apagar',
+                    ],
+                ],
+            ],
+
+            'dashboard-produtos-editar' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/dashboard-produtos/editar/:id',
+                    'constraints' => [
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\ProdutoController::class,
+                        'action'     => 'editar',
+                    ],
+                ],
+            ],
+            'dashboard-produtos-atualizar' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/dashboard-produtos/atualizar/:id',
+                    'constraints' => [
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\ProdutoController::class,
+                        'action'     => 'atualizar',
+                    ],
+                ],
+            ],
+
+            'movimentacao' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/movimentacao',
+                    'defaults' => [
+                        'controller' => Controller\MovimentacaoController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'movimentacao-salvar' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/movimentacao/salvar',
+                    'defaults' => [
+                        'controller' => Controller\MovimentacaoController::class,
+                        'action'     => 'salvar',
+                    ],
+                ],
+            ],
+
             
             'application' => [
                 'type'    => Segment::class,
@@ -220,6 +301,23 @@ return [
                 $doctrineService = $container->get(Service\DoctrineService::class);
                 return new Controller\SetorController($doctrineService);
             },
+
+            //Controlador do Estoque
+            Controller\EstoqueController::class => function($container) {
+                $doctrineService = $container->get(Service\DoctrineService::class);
+                return new Controller\EstoqueController($doctrineService);
+            },
+
+            //Controlador de Produtos
+            Controller\ProdutoController::class => function($container) {
+                $doctrineService = $container->get(Service\DoctrineService::class);
+                return new Controller\ProdutoController($doctrineService);
+            },
+
+            Controller\MovimentacaoController::class => function($container) {
+                $doctrineService = $container->get(Service\DoctrineService::class);
+                return new Controller\MovimentacaoController($doctrineService);
+            },
         ],
     ],
     
@@ -244,6 +342,13 @@ return [
             'application/usuario/editar' => __DIR__ . '/../view/application/usuario/editar.phtml',
             //View da Gestão de setores
             'application/setor/index' => __DIR__ . '/../view/application/setor/index.phtml',
+            //View do Estoque
+            'application/estoque/index' => __DIR__ . '/../view/application/estoque/index.phtml',
+            //View de Produtos
+            'application/produto/index' => __DIR__ . '/../view/application/produto/index.phtml',
+            'application/produto/editar' => __DIR__ . '/../view/application/produto/editar.phtml',
+            // View de Movimentação
+            'application/movimentacao/index' => __DIR__ . '/../view/application/movimentacao/index.phtml',
 
         ],
         'template_path_stack' => [

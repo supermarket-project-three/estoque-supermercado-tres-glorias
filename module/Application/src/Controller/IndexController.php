@@ -39,7 +39,7 @@ class IndexController extends AbstractActionController
         // 4. Busca os produtos para a tabela de "Alertas" (O seu código já fazia isto)
         $produtosEmAlerta = $repoProduto->findBy(
             ['ativo' => true], // Critérios
-            ['estoqueAtual' => 'ASC'], // Ordenar (estoque baixo primeiro)
+            ['quantidade' => 'ASC'], // Ordenar (estoque baixo primeiro)
             10 // Limite
         );
         

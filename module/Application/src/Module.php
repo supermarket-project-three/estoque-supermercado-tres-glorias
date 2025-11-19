@@ -6,6 +6,7 @@ namespace Application;
 
 use Laminas\Mvc\MvcEvent;
 use Laminas\Session\Container;
+use Laminas\Http\Response; // <<< ADICIONADO: Importante para a verificação de tipo
 
 class Module
 {
@@ -26,40 +27,64 @@ class Module
 
     public function protegerPaginas(MvcEvent $e)
     {
-        $rotaAtual = $e->getRouteMatch()->getMatchedRouteName();
+        // 1. Verifica se a rota existe (evita erro em páginas 404)
+        $match = $e->getRouteMatch();
+        if (!$match) {
+            return;
+        }
 
-        // Rotas que NÃO precisam de login
-        $rotasPublicas = [
-            'login',
-            'autenticar',
-        ];
+        $rotaAtual = $match->getMatchedRouteName();
 
+        // 2. Rotas Públicas (Ninguém precisa de login)
+        $rotasPublicas = ['login', 'autenticar', 'logout'];
         if (in_array($rotaAtual, $rotasPublicas)) {
             return;
         }
 
-        // Se a rota NÃO é pública, verifica a sessão
+        // 3. Verifica Login (Se não tiver sessão, manda para login)
         $session = new Container('user');
         
         if (!isset($session->id)) {
-            // NÃO ESTÁ LOGADO!
-            
             $url = $e->getRouter()->assemble([], ['name' => 'login']);
             $response = $e->getResponse();
             
-            $response->getHeaders()->addHeaderLine('Location', $url);
-            $response->setStatusCode(302);
+            // Verificação de tipo para corrigir o erro do editor
+            if ($response instanceof Response) {
+                $response->getHeaders()->addHeaderLine('Location', $url);
+                $response->setStatusCode(302);
+            }
             
             return $response;
         }
 
-        // Se chegou até aqui, o utilizador está logado.
+        // --- NOVA SEGURANÇA: CONTROLE DE ACESSO POR TIPO (ACL) ---
         
-        // --- INÍCIO DA CORREÇÃO ---
-        // A variável $e JÁ É o MvcEvent
+        // Lista de rotas EXCLUSIVAS de Administrador
+        $rotasAdmin = [
+            'dashboard', 
+            'dashboard-usuarios', 'dashboard-usuarios-salvar', 'dashboard-usuarios-editar', 'dashboard-usuarios-atualizar', 'dashboard-usuarios-apagar',
+            'dashboard-setores', 'dashboard-setores-salvar', 'dashboard-setores-apagar',
+            'dashboard-produtos', 'dashboard-produtos-salvar', 'dashboard-produtos-editar', 'dashboard-produtos-atualizar',
+        ];
+
+        // Se o usuário é 'responsavel' E tenta acessar rota de admin -> Bloqueia
+        if ($session->tipo === 'responsavel' && in_array($rotaAtual, $rotasAdmin)) {
+            
+            // Redireciona o invasor de volta para a área dele (/estoque)
+            $url = $e->getRouter()->assemble([], ['name' => 'estoque']);
+            $response = $e->getResponse();
+            
+            // Verificação de tipo aqui também
+            if ($response instanceof Response) {
+                $response->getHeaders()->addHeaderLine('Location', $url);
+                $response->setStatusCode(302);
+            }
+            
+            return $response;
+        }
+
+        // 4. Injeta dados na view
         $viewModel = $e->getViewModel();
-        // --- FIM DA CORREÇÃO ---
-        
         $viewModel->setVariable('user', $session);
     }
 }

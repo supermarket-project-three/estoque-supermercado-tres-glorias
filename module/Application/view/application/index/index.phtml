@@ -22,10 +22,11 @@
         <div class="right-header">
             <nav>
                 <ul>
-                    <li><a href="<?php echo $this->url('dashboard'); ?>">Inicio</a></li>
-                    <li><a href="<?php echo $this->url('dashboard-usuarios'); ?>">Usuários</a></li>
-                    <li><a href="<?php echo $this->url('dashboard-setores'); ?>">Setores</a></li>
-                    <li><a href="<?php echo $this->url('logout'); ?>">Logout</a></li>
+                    <li><a href="<?= $this->url('dashboard') ?>">Inicio</a></li>
+                    <li><a href="<?php echo $this->url('dashboard-produtos'); ?>">Produtos</a></li>
+                    <li><a href="<?= $this->url('dashboard-usuarios') ?>">Usuários</a></li>
+                    <li><a href="<?= $this->url('dashboard-setores') ?>">Setores</a></li>
+                    <li><a href="<?= $this->url('logout') ?>">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -77,10 +78,10 @@
                         $status = 'Estoque em Ordem';
                         $classeStatus = 'status-ok';
                         
-                        if ($produto->getEstoqueAtual() <= 0) {
+                        if ($produto->getQuantidade() <= 0) {
                             $status = 'Sem Estoque';
                             $classeStatus = 'status-esgotado';
-                        } elseif ($produto->getEstoqueAtual() <= $produto->getEstoqueMinimo()) {
+                        } elseif ($produto->getQuantidade() <= 10) {
                             $status = 'Estoque Baixo';
                             $classeStatus = 'status-baixo';
                         }
@@ -88,7 +89,7 @@
                         echo '<tr class="' . $classeStatus . '">';
                             echo '<td>' . $this->escapeHtml($produto->getNome()) . '</td>';
                             echo '<td>' . $this->escapeHtml($produto->getSetor()->getNome()) . '</td>';
-                            echo '<td>' . $this->escapeHtml($produto->getEstoqueAtual()) . '</td>';
+                            echo '<td>' . $this->escapeHtml($produto->getQuantidade()) . '</td>';
                             echo '<td>' . $status . '</td>';
                         echo '</tr>';
                     }
@@ -98,7 +99,7 @@
         </section>
         
         <section class="widget" id="activity">
-            <h2>Últimas Alterações</h2>
+                <h2>Últimas Alterações</h2>
             <ul class="activity-feed">
                 <?php
                 if (empty($this->ultimasAlteracoes)) {
@@ -106,10 +107,30 @@
                 }
 
                 foreach ($this->ultimasAlteracoes as $movimento) {
-                    echo '<li>';
+                    $tipo = $movimento->getTipo(); // entrada, saida
+                    $sinal = ($tipo == 'entrada') ? '+' : '-';
+                    $cor = ($tipo == 'entrada') ? 'green' : 'red';
+                    
+                    // Formata a data (ex: 12/11 14:30)
+                    $data = $movimento->getData()->format('d/m H:i');
+
+                    echo '<li style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">';
+                    
+                    // Ex: [Entrada] Arroz (+50)
+                    echo '<span style="color: ' . $cor . '; font-weight: bold; text-transform: capitalize;">[' . $this->escapeHtml($tipo) . ']</span> ';
                     echo '<strong>' . $this->escapeHtml($movimento->getProduto()->getNome()) . '</strong> ';
-                    echo 'alterada para ' . $this->escapeHtml($movimento->getQuantidade()) . '.';
-                    echo '<small>Motivo: ' . $this->escapeHtml($movimento->getTipo()) . '</small>';
+                    echo '<span style="font-weight: bold;">(' . $sinal . $movimento->getQuantidade() . ')</span>';
+                    
+                    echo '<br>';
+                    
+                    // Motivo e Usuário
+                    echo '<small style="color: #666;">';
+                    echo $data . ' - por ' . $this->escapeHtml($movimento->getUsuario()->getNome());
+                    if ($movimento->getObservacao()) {
+                        echo ' - <em>"' . $this->escapeHtml($movimento->getObservacao()) . '"</em>';
+                    }
+                    echo '</small>';
+                    
                     echo '</li>';
                 }
                 ?>

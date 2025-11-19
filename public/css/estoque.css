@@ -152,78 +152,74 @@ summary.setor-header::marker {
     justify-content: flex-end;
 }
 
-/* 6. ESTILOS DO MODAL (POP-UP) DE JUSTIFICATIVA */
+
+/* ESTILOS DO MODAL */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    display: none; /* Oculto por padrão */
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro */
+    z-index: 99999 !important; /* Garante que fica no topo */
     justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    align-items: center;
 }
-.modal-overlay:target {
-    opacity: 1;
-    visibility: visible;
-}
-.modal-conteudo {
-    background: var(--cor-identidade-branco);
-    padding: 25px 30px;
+
+.modal-content {
+    background: #fff; 
+    padding: 30px; 
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 90%;
-    max-width: 500px;
+    width: 90%; 
+    max-width: 500px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     position: relative;
-    text-align: left;
 }
-.modal-conteudo h2 {
-    font-family: var(--fonte1);
-    color: var(--cor-identidade-preto);
-    margin-top: 0;
-    border-bottom: 2px solid var(--cor-identidade-verde);
-    padding-bottom: 10px;
+
+.modal-content h3 { 
+    margin-top: 0; 
+    color: #333; 
+    border-bottom: 2px solid #4CAF50; /* Cor verde do seu tema */
+    padding-bottom: 10px; 
 }
-.modal-conteudo p {
-    font-family: var(--fonte2);
-    color: #444;
-    line-height: 1.6;
+
+/* Estilos do Formulário no Modal */
+.form-group { margin-bottom: 15px; }
+
+.form-group label { 
+    display: block; 
+    margin-bottom: 5px; 
+    font-weight: bold; 
 }
-.modal-fechar {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 2rem;
-    color: #aaa;
-    text-decoration: none;
-    line-height: 1;
+
+.form-group input[type="number"], 
+.form-group textarea {
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    font-family: inherit;
+    box-sizing: border-box; /* Importante para padding não quebrar largura */
 }
-.modal-fechar:hover {
-    color: var(--cor-identidade-preto);
+
+/* Botões */
+.btn-cancelar {
+    background: #ccc; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    color: #333; 
+    margin-right: 10px;
+    font-family: inherit;
+    font-weight: bold;
 }
-.form-modal label {
-    font-family: var(--fonte1);
-    font-weight: 600;
-    display: block;
-    margin-bottom: 5px;
-}
-.form-modal textarea {
-    width: 100%;
-    padding: 10px;
-    font-family: var(--fonte2);
-    font-size: 1rem;
-    border: 1px solid #ccc;
+
+.btn-movimentar {
+    cursor: pointer; 
+    padding: 5px 10px; 
+    font-size: 0.9rem;
+    border: none;
     border-radius: 4px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-    resize: vertical;
-    margin-bottom: 20px;
-}
-.buttonVerde {
-    text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
 }

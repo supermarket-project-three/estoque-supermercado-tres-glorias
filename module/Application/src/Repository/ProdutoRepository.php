@@ -25,7 +25,7 @@ class ProdutoRepository extends EntityRepository
     public function getKpiItensEsgotados()
     {
         $dql = 'SELECT COUNT(p.id) FROM Application\Entity\Produto p 
-                WHERE p.estoqueAtual <= 0';
+                WHERE p.quantidade <= 0';
         
         return $this->getEntityManager()->createQuery($dql)
                     ->getSingleScalarResult(); // Retorna (ex: 1)
@@ -38,8 +38,8 @@ class ProdutoRepository extends EntityRepository
     {
         // Esta consulta compara o estoque atual com o estoque mínimo
         $dql = 'SELECT COUNT(p.id) FROM Application\Entity\Produto p 
-                WHERE p.estoqueAtual > 0 
-                AND p.estoqueAtual <= p.estoqueMinimo';
+                WHERE p.quantidade > 0 
+                AND p.quantidade <= 10';
         
         return $this->getEntityManager()->createQuery($dql)
                     ->getSingleScalarResult(); // Retorna (ex: 5)
@@ -51,7 +51,7 @@ class ProdutoRepository extends EntityRepository
     public function getKpiValorTotalEstoque()
     {
         // SUM (soma) da multiplicação do preço pela quantidade
-        $dql = 'SELECT SUM(p.preco * p.estoqueAtual) FROM Application\Entity\Produto p';
+        $dql = 'SELECT SUM(p.preco * p.quantidade) FROM Application\Entity\Produto p';
         
         $valor = $this->getEntityManager()->createQuery($dql)
                       ->getSingleScalarResult();

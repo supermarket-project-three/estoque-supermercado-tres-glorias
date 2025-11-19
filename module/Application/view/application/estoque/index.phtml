@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque - Três Glórias</title>
+    
+    <link rel="shortcut icon" href="<?php echo $this->basePath('img/favicon-tres-glorias.ico'); ?>" type="image/x-icon">
+    <link rel="stylesheet" href="<?php echo $this->basePath('css/preset.css'); ?>">
+    <link rel="stylesheet" href="<?php echo $this->basePath('css/estoque.css'); ?>">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    
+    <div class="container container-pagina-principal">
+        <main class="main-content">
+            
+            <div class="header-estoque">
+                <h1>Controle de Estoque</h1>
+                <nav>
+                     <a href="<?php echo $this->url('logout'); ?>" style="font-size: 1rem; color: #d9534f; text-decoration: none; font-weight: bold;">Sair</a>
+                </nav>
+            </div>
+            
+            <div class="sub-header">
+                <p>Bem-vindo, <strong><?php echo $this->escapeHtml($this->nomeUsuario); ?></strong></p>
+            </div>
+            
+            <div class="acordeao-estoque">
+
+                <?php 
+                foreach ($this->setores as $setor): 
+                    $produtos = $setor->getProdutos(); 
+                ?>
+                
+                <details class="bloco-setor-estoque">
+                    <summary class="setor-header">
+                        <h2 class="titulo-setor"><?php echo $this->escapeHtml($setor->getNome()); ?></h2>
+                        <span style="font-size: 0.8rem; color: #666;">(<?php echo count($produtos); ?> produtos)</span>
+                    </summary>
+                    
+                    <div class="setor-conteudo">
+
+                        <?php if (count($produtos) == 0): ?>
+                            <p style="padding: 20px; text-align: center; color: #999;">Nenhum produto cadastrado neste setor.</p>
+                        <?php else: ?>
+
+                            <table class="tabela-estoque-produtos">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Produto / Marca</th>
+                                        <th>Descrição</th>
+                                        <th class="coluna-qtd">Qtd. Atual</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <?php 
+                                    foreach ($produtos as $produto): 
+                                        $qtd = $produto->getQuantidade(); 
+                                        $min = 10; 
+                                        $classeStatus = '';
+
+                                        if ($qtd <= 0) {
+                                            $classeStatus = 'status-sem-estoque'; 
+                                        } elseif ($qtd <= $min) {
+                                            $classeStatus = 'status-estoque-baixo'; 
+                                        }
+                                    ?>
+
+                                    <tr class="item-produto <?php echo $classeStatus; ?>">
+                                        <td><?php echo $produto->getId(); ?></td>
+                                        <td>
+                                            <strong><?php echo $this->escapeHtml($produto->getNome()); ?></strong><br>
+                                            <small style="color: #666;"><?php echo $this->escapeHtml($produto->getMarca()); ?></small>
+                                        </td>
+                                        <td><small><?php echo $this->escapeHtml($produto->getDescricao()); ?></small></td>
+                                        <td class="coluna-qtd" style="font-weight: bold; font-size: 1.1rem;">
+                                            <?php echo $qtd; ?>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="buttonVerde btn-movimentar" 
+                                                    data-id="<?php echo $produto->getId(); ?>"
+                                                    data-nome="<?php echo $this->escapeHtmlAttr($produto->getNome()); ?>">
+                                                Movimentar
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <?php endforeach; ?>
+
+                                </tbody>
+                            </table>
+
+                        <?php endif; ?>
+
+                    </div>
+                </details>
+
+                <?php endforeach; ?>
+
+                <?php if (count($this->setores) == 0): ?>
+                    <p style="text-align: center; margin-top: 50px;">Nenhum setor cadastrado no sistema.</p>
+                <?php endif; ?>
+
+            </div>
+            
+        </main>
+    </div>
+
+    <div id="modalMovimentacao" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Movimentar: <span id="modalNomeProduto" style="color: var(--cor-identidade-verde);"></span></h3>
+            
+            <form method="POST" action="<?php echo $this->url('movimentacao-salvar'); ?>">
+                <input type="hidden" name="produto_id" id="modalIdProduto" value="">
+                
+                <div class="form-group">
+                    <label>Tipo de Movimentação:</label>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <label style="font-weight: normal; cursor: pointer;">
+                            <input type="radio" name="tipo" value="entrada" checked> 
+                            <span style="color: green;">Entrada</span>
+                        </label>
+                        <label style="font-weight: normal; cursor: pointer;">
+                            <input type="radio" name="tipo" value="saida"> 
+                            <span style="color: red;">Saída</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalQtd">Quantidade:</label>
+                    <input type="number" name="quantidade" id="modalQtd" min="1" required placeholder="Ex: 10">
+                </div>
+
+                <div class="form-group">
+                    <label for="modalObs">Mensagem / Motivo:</label>
+                    <textarea name="observacao" id="modalObs" rows="3" placeholder="Ex: Chegada de fornecedor..."></textarea>
+                </div>
+
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" class="btn-cancelar" id="btnFecharModal">Cancelar</button>
+                    <button type="submit" class="buttonVerde">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="<?php echo $this->basePath('js/estoque.js'); ?>"></script>
+</body>
+</html>

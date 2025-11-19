@@ -30,6 +30,9 @@ class MovimentoEstoque
     #[ORM\Column(type: "datetime")]
     private \DateTime $data;
 
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $observacao = null;
+
     public function __construct()
     {
         $this->data = new \DateTime();
@@ -92,6 +95,17 @@ class MovimentoEstoque
     public function setData(\DateTime $data): self
     {
         $this->data = $data;
+        return $this;
+    }
+
+    public function getObservacao(): ?string
+    {
+        return $this->observacao;
+    }
+
+    public function setObservacao(?string $observacao): self
+    {
+        $this->observacao = $observacao;
         return $this;
     }
 }

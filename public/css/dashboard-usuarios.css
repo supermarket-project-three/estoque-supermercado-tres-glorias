@@ -6,16 +6,15 @@
 @import url('preset.css');
 
 /* Melhoria visual da tabela */
-/* Estilos da Tabela */
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white; /* Garante fundo branco */
+    background-color: white;
 }
 
 /* Força a tabela a não encolher demais no mobile */
 #list {
-    min-width: 600px; /* Se a tela for menor que isso, vai aparecer barra de rolagem */
+    min-width: 600px;
 }
 
 #list-header td {
@@ -30,12 +29,12 @@ table {
     border: 1px solid #ddd;
     padding: 8px;
     color: #333;
-    word-break: break-word; /* Quebra emails longos se necessário */
+    word-break: break-word;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f7f6; /* Um cinza bem claro, como no seu projeto */
+    background-color: #f4f7f6;
     margin: 0;
     padding: 0;
 }
@@ -61,7 +60,7 @@ h1, h2, h3 {
     align-items: center;
     background-color: #ffffff;
     padding: 1.5rem 2rem;
-    border-bottom: 2px solid #00875E; /* A cor verde do seu projeto */
+    border-bottom: 2px solid #00875E;
     margin-bottom: 2rem;
 }
 
@@ -81,7 +80,7 @@ h1, h2, h3 {
     padding: 10px;
     border-radius: 20px;
     color: white;
-    display: inline-block; /* Isso faz o padding contar na altura, evitando que eles se sobreponham */
+    display: inline-block;
 }
 
 /* ----- Layout Principal do Dashboard ----- */
@@ -97,13 +96,8 @@ h1, h2, h3 {
     margin-top: 30px;
 }
 
-.close {
-    display: none;
-}
-
-.open {
-    display: block;
-}
+.close { display: none; }
+.open { display: block; }
 
 .register-user {
     display: flex;
@@ -120,7 +114,6 @@ h1, h2, h3 {
 }
 
 #form {
-
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -128,7 +121,6 @@ h1, h2, h3 {
     gap: 15px;
     margin-top: 60px;
     font-family: var(--fonte2);
-
 }
 
 #form input:not([type="radio"]) {
@@ -142,13 +134,11 @@ h1, h2, h3 {
     padding: 3px;
 }
 
-
 .radio p {
     text-align: start;
     padding: 6px;
     display: inline;
 }
-
 
 .list-users {
     width: 50%;
@@ -168,11 +158,9 @@ h1, h2, h3 {
     margin-top: 30px;
 }
 
-#list {
-    border-collapse: collapse;
-}
+#list { border-collapse: collapse; }
 
-#list-header td, #list-header tr, #list-body td, #list-body td{
+#list-header td, #list-header tr, #list-body td, #list-body td {
     border: 3px solid #00875E;
     padding: 6px;
 }
@@ -184,26 +172,37 @@ h1, h2, h3 {
     border-radius: 2px;
 }
 
-.edit {
-    background-color: #E7BB41;
-}
+.edit { background-color: #E7BB41; }
+.delete { background-color: #E9190F; }
 
-.delete {
-    background-color: #E9190F;
-}
-
-/* --- RESPONSIVIDADE (MOBILE-FIRST) --- */
 
 /* ============================================================
-   MEDIA QUERIES (RESPONSIVIDADE)
+   REGRA GLOBAL DO AVISO (ESCONDE POR PADRÃO NO PC)
    ============================================================ */
 
-/* Regra para CELULARES e TABLETS (Telas menores que 768px) 
-   Aqui a gente força o layout a ficar em coluna.
-*/
+.aviso-scroll {
+    display: none !important; /* Esconde no PC */
+}
+
+
+/* ============================================================
+   MEDIA QUERIES (RESPONSIVIDADE - MOBILE)
+   ============================================================ */
+
 @media screen and (max-width: 768px) {
     
-    /* Menu: Quebra linha e centraliza */
+    /* 1. MOSTRA O AVISO NO CELULAR */
+    .aviso-scroll {
+        display: block !important;
+        text-align: right;
+        color: #666;
+        font-weight: bold;
+        margin-bottom: 5px;
+        width: 100%;
+        font-size: 0.8rem;
+    }
+
+    /* 2. MENU */
     .main-header {
         flex-direction: column;
         align-items: center;
@@ -215,70 +214,67 @@ h1, h2, h3 {
         padding-left: 0;
         display: flex;
         justify-content: center;
-        flex-wrap: wrap; /* Permite quebrar linha */
-        gap: 15px; /* Espaço horizontal e vertical entre os botões */
+        flex-wrap: wrap;
+        gap: 15px;
         width: 100%;
         margin-top: 10px;
     }
 
     .main-header ul li {
-        /* Garante que não fiquem colados mesmo se o navegador for antigo */
         margin-bottom: 5px; 
     }
 
-    /* Layout em coluna */
+    /* 3. LAYOUT EM COLUNA */
     .dashboard-flex {
         flex-direction: column;
         align-items: center;
         padding: 10px 0;
     }
 
-    /* Formulário */
     .register-user {
         width: 95%;
         border-left: none;
         border-top: 5px solid #00875E;
         margin-bottom: 30px;
-        padding: 20px 10px; /* Reduz padding lateral */
+        padding: 20px 10px;
     }
 
+    /* 4. TABELA COM SCROLL */
     .tabela-scroll {
-    width: 100%;
-    overflow-x: auto;
-}
+        width: 100%;
+        overflow-x: auto;
+    }
 
     .tabela-scroll table {
-    min-width: 600px; /* Tamanho mínimo para forçar o scroll */
-}
+        min-width: 600px;
+    }
 
-    /* A MÁGICA DA TABELA NO MOBILE */
     .list-users {
         width: 95%;
         border-left: none;
         border-top: 5px solid #00875E;
         padding: 10px;
-        
-        /* Isso cria a barra de rolagem horizontal só na tabela */
         overflow-x: auto; 
-        display: block; /* Garante que o bloco obedeça o overflow */
+        display: block;
     }
 }
 
-/* Regra para DESKTOP (Telas maiores que 769px)
-   Garante que o layout volte ao normal se o navegador estiver grande
-*/
+/* ============================================================
+   MEDIA QUERIES (DESKTOP - AJUSTES FINAIS)
+   ============================================================ */
+
 @media screen and (min-width: 769px) {
+    
     .dashboard-flex {
         flex-direction: row;
         justify-content: space-evenly;
-        align-items: flex-start; /* Alinha no topo */
+        align-items: flex-start;
     }
 
     .register-user {
         width: 40%;
         border-left: 5px solid #00875E;
         border-top: none;
-        /* Havia um erro de sintaxe aqui (faltava ponto e vírgula) */
         box-shadow: 0 0 5px rgba(128, 128, 128, 0.555); 
     }
 

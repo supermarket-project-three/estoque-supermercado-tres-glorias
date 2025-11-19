@@ -257,6 +257,35 @@ h1, h2, h3 {
         overflow-x: auto; 
         display: block;
     }
+
+    #list-body td {
+    padding: 8px 5px; /* Reduz padding lateral para caber mais */
+}
+
+    /* Os Links de Ação (Editar/Apagar) */
+    #list-body a {
+        /* Força os links a se comportarem como blocos para aceitar padding e margem */
+        display: inline-block; 
+    
+        padding: 8px 12px; /* Aumenta a área clicável */
+        margin: 3px 0; /* Dá um pequeno espaçamento vertical entre eles */
+        font-size: 0.85rem; /* Talvez aumentar um pouco a fonte */
+        white-space: nowrap; /* Impede que o texto do botão quebre */
+    }
+
+    /* Se quiser que eles fiquem um embaixo do outro no mobile: */
+    #list-body td:last-child { /* A célula onde estão os botões */
+        display: flex; /* Transforma em flex container */
+        flex-direction: column; /* Faz os botões ficarem um abaixo do outro */
+        align-items: center; /* Centraliza os botões */
+        justify-content: center;
+        gap: 5px; /* Espaço entre os botões */
+    }
+
+    /* Opcional: Centraliza o cabeçalho 'OPTIONS' */
+    #list-header td:last-child {
+        text-align: center;
+    }
 }
 
 /* ============================================================

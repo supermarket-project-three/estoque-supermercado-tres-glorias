@@ -56,7 +56,7 @@
 
         
         <section class="widget widget-large" id="alerts">
-            <h2>⚠️ Alertas de Reposição</h2>
+            <h2>⚠️ Alertas</h2>
             <table>
                 <thead>
                     <tr>
@@ -99,7 +99,10 @@
         </section>
         
         <section class="widget" id="activity">
-                <h2>Últimas Alterações</h2>
+                <div class="titulo-historico">
+                    <h2>Últimas Alterações</h2>
+                    <a class="buttonVerde" href="<?= $this->url('historico') ?>">Ver Histórico completo</a>
+                </div>
             <ul class="activity-feed">
                 <?php
                 if (empty($this->ultimasAlteracoes)) {

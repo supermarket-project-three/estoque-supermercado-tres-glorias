@@ -254,6 +254,17 @@ return [
                 ],
             ],
 
+            'historico' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/historico',
+                    'defaults' => [
+                        'controller' => Controller\HistoricoController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+
             
             'application' => [
                 'type'    => Segment::class,
@@ -318,6 +329,11 @@ return [
                 $doctrineService = $container->get(Service\DoctrineService::class);
                 return new Controller\MovimentacaoController($doctrineService);
             },
+
+            Controller\HistoricoController::class => function($container) {
+                $doctrineService = $container->get(Service\DoctrineService::class);
+                return new Controller\HistoricoController($doctrineService);
+            },
         ],
     ],
     
@@ -349,6 +365,7 @@ return [
             'application/produto/editar' => __DIR__ . '/../view/application/produto/editar.phtml',
             // View de Movimentação
             'application/movimentacao/index' => __DIR__ . '/../view/application/movimentacao/index.phtml',
+            'application/historico/index' => __DIR__ . '/../view/application/historico/index.phtml',
 
         ],
         'template_path_stack' => [

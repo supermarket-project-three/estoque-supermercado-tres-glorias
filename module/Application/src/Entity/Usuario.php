@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 // Importações necessárias para os relacionamentos
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\Setor;
-use Application\Entity\Pedido;
 
 #[ORM\Entity]
 #[ORM\Table(name: "usuario")]
@@ -36,12 +35,10 @@ class Usuario
     #[ORM\JoinColumn(name: "setor_id", referencedColumnName: "id", nullable: true)]
     private ?Setor $setor = null;
 
-    #[ORM\OneToMany(mappedBy: "responsavel", targetEntity: Pedido::class)]
-    private $pedidos;
 
     public function __construct()
     {
-        $this->pedidos = new ArrayCollection();
+
     }
 
     // --- Métodos de Senha (Essenciais) ---

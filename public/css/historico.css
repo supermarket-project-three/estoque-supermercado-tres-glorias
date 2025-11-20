@@ -1,0 +1,18 @@
+        .filtros-box {
+            background: #fff; padding: 20px; border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; border: 1px solid #eee;
+        }
+        .filtros-grid {
+            display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end;
+        }
+        .filtros-grid .campo { flex-grow: 1; }
+        .filtros-grid label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .filtros-grid input, .filtros-grid select {
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;
+        }
+        .badge {
+            padding: 5px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; color: white;
+        }
+        .badge-entrada { background-color: #27ae60; }
+        .badge-saida { background-color: #c0392b; }
+        .badge-ajuste { background-color: #f39c12; }

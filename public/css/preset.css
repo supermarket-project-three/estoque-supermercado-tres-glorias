@@ -57,6 +57,7 @@
     color: white;
     border-radius: 3px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .buttonVerde:hover{

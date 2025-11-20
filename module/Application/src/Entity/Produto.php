@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Application\Entity\Setor;
-use Application\Entity\Pedido;
 use Application\Repository\ProdutoRepository;
 
 #[ORM\Entity(repositoryClass: ProdutoRepository::class)]
@@ -40,12 +39,9 @@ class Produto
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private float $preco = 0;
 
-    #[ORM\OneToMany(mappedBy: "produto", targetEntity: Pedido::class)]
-    private Collection $pedidos;
-
     public function __construct()
     {
-        $this->pedidos = new ArrayCollection();
+        
     }
 
     // --- GETTERS E SETTERS ---
@@ -132,11 +128,5 @@ class Produto
         return $this;
     }
 
-    /**
-     * @return Collection|Pedido[]
-     */
-    public function getPedidos(): Collection
-    {
-        return $this->pedidos;
-    }
+    
 }

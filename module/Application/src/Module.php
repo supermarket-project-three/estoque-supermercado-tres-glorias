@@ -64,7 +64,7 @@ class Module
             'dashboard', 
             'dashboard-usuarios', 'dashboard-usuarios-salvar', 'dashboard-usuarios-editar', 'dashboard-usuarios-atualizar', 'dashboard-usuarios-apagar',
             'dashboard-setores', 'dashboard-setores-salvar', 'dashboard-setores-apagar',
-            'dashboard-produtos', 'dashboard-produtos-salvar', 'dashboard-produtos-editar', 'dashboard-produtos-atualizar',
+            'dashboard-produtos', 'dashboard-produtos-salvar', 'dashboard-produtos-editar', 'dashboard-produtos-atualizar', 'historico',
         ];
 
         // Se o usuário é 'responsavel' E tenta acessar rota de admin -> Bloqueia

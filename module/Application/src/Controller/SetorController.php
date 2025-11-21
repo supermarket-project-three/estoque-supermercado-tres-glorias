@@ -8,7 +8,7 @@ use Application\Entity\Setor;
 
 class SetorController extends AbstractActionController
 {
-    private $em; // Nosso EntityManager
+    private $em; //EntityManager
 
     public function __construct(DoctrineService $doctrineService)
     {
@@ -21,15 +21,14 @@ class SetorController extends AbstractActionController
      */
     public function indexAction()
     {
-        // 1. Busca todos os setores do banco
+        //Busca todos os setores do banco
         $setores = $this->em->getRepository(Setor::class)->findAll();
 
-        // 2. Cria a ViewModel
+        //Cria a ViewModel
         $viewModel = new ViewModel([
             'setores' => $setores // Envia os setores para a view
         ]);
 
-        // 3. Diz ao Laminas para NÃO USAR o layout principal (barra azul)
         $viewModel->setTerminal(true);
 
         return $viewModel;
@@ -46,14 +45,10 @@ class SetorController extends AbstractActionController
         }
 
         $data = $this->params()->fromPost();
-        
-        // (Opcional: verificar se o setor já existe)
 
         // Cria a nova entidade Setor
         $novoSetor = new Setor();
         $novoSetor->setNome($data['nome_setor']);
-        // (O seu 'Setor' não precisa de 'responsavel_id' no cadastro,
-        // isso será feito na edição do 'Usuário')
 
         // Salva no banco
         $this->em->persist($novoSetor);
@@ -74,13 +69,11 @@ class SetorController extends AbstractActionController
         try {
             $setor = $this->em->getRepository(Setor::class)->find($id);
             if ($setor) {
-                // (Cuidado: Adicionar lógica para verificar se há produtos
-                // ou usuários ligados a este setor antes de apagar)
                 $this->em->remove($setor);
                 $this->em->flush();
             }
         } catch (\Exception $e) {
-            // (Lidar com o erro de chave estrangeira)
+            echo "ERRO: " . $e->getMessage();
         }
 
         return $this->redirect()->toRoute('dashboard-setores');

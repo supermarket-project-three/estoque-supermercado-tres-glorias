@@ -138,7 +138,6 @@
                                 
                                 <td title="<?php echo $this->escapeHtml($produto->getDescricao()); ?>">
                                     <?php 
-                                        // Truque opcional: Se a descrição for muito longa, corta o texto
                                         $desc = $this->escapeHtml($produto->getDescricao());
                                         echo (strlen($desc) > 30) ? substr($desc, 0, 30) . '...' : $desc; 
                                     ?>

@@ -110,16 +110,15 @@
                 }
 
                 foreach ($this->ultimasAlteracoes as $movimento) {
-                    $tipo = $movimento->getTipo(); // entrada, saida
+                    $tipo = $movimento->getTipo();
                     $sinal = ($tipo == 'entrada') ? '+' : '-';
                     $cor = ($tipo == 'entrada') ? 'green' : 'red';
                     
-                    // Formata a data (ex: 12/11 14:30)
+                    // Formata a data
                     $data = $movimento->getData()->format('d/m H:i');
 
                     echo '<li style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">';
                     
-                    // Ex: [Entrada] Arroz (+50)
                     echo '<span style="color: ' . $cor . '; font-weight: bold; text-transform: capitalize;">[' . $this->escapeHtml($tipo) . ']</span> ';
                     echo '<strong>' . $this->escapeHtml($movimento->getProduto()->getNome()) . '</strong> ';
                     echo '<span style="font-weight: bold;">(' . $sinal . $movimento->getQuantidade() . ')</span>';

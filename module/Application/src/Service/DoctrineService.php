@@ -10,8 +10,7 @@ class DoctrineService
     public function getEntityManager(): EntityManager
     {
         if ($this->em === null) {
-            // Carrega o EntityManager UMA VEZ
-            // Ajuste o caminho se o seu bootstrap.php estiver em outro lugar
+            // Carrega o EntityManager
             $this->em = require __DIR__ . '/../bootstrap.php';
         }
         return $this->em;

@@ -6,7 +6,7 @@ namespace Application;
 
 use Laminas\Mvc\MvcEvent;
 use Laminas\Session\Container;
-use Laminas\Http\Response; // <<< ADICIONADO: Importante para a verificação de tipo
+use Laminas\Http\Response;
 
 class Module
 {
@@ -27,7 +27,7 @@ class Module
 
     public function protegerPaginas(MvcEvent $e)
     {
-        // 1. Verifica se a rota existe (evita erro em páginas 404)
+        //Verifica se a rota existe (evita erro em páginas 404)
         $match = $e->getRouteMatch();
         if (!$match) {
             return;
@@ -35,13 +35,13 @@ class Module
 
         $rotaAtual = $match->getMatchedRouteName();
 
-        // 2. Rotas Públicas (Ninguém precisa de login)
+        //Rotas Públicas (Ninguém precisa de login)
         $rotasPublicas = ['login', 'autenticar', 'logout'];
         if (in_array($rotaAtual, $rotasPublicas)) {
             return;
         }
 
-        // 3. Verifica Login (Se não tiver sessão, manda para login)
+        //Verifica Login (Se não tiver sessão, manda para login)
         $session = new Container('user');
         
         if (!isset($session->id)) {
@@ -57,9 +57,9 @@ class Module
             return $response;
         }
 
-        // --- NOVA SEGURANÇA: CONTROLE DE ACESSO POR TIPO (ACL) ---
+        //Controle de Acesso por tipo de usuário
         
-        // Lista de rotas EXCLUSIVAS de Administrador
+        // Lista de rotas de Administrador
         $rotasAdmin = [
             'dashboard', 
             'dashboard-usuarios', 'dashboard-usuarios-salvar', 'dashboard-usuarios-editar', 'dashboard-usuarios-atualizar', 'dashboard-usuarios-apagar',
@@ -67,10 +67,10 @@ class Module
             'dashboard-produtos', 'dashboard-produtos-salvar', 'dashboard-produtos-editar', 'dashboard-produtos-atualizar', 'historico',
         ];
 
-        // Se o usuário é 'responsavel' E tenta acessar rota de admin -> Bloqueia
+        // Se o usuário é um responsavel e tenta acessar rota de admin, bloqueia
         if ($session->tipo === 'responsavel' && in_array($rotaAtual, $rotasAdmin)) {
             
-            // Redireciona o invasor de volta para a área dele (/estoque)
+            // Redireciona o invasor de volta para a área dele
             $url = $e->getRouter()->assemble([], ['name' => 'estoque']);
             $response = $e->getResponse();
             
@@ -83,7 +83,7 @@ class Module
             return $response;
         }
 
-        // 4. Injeta dados na view
+        //Injeta dados na view
         $viewModel = $e->getViewModel();
         $viewModel->setVariable('user', $session);
     }

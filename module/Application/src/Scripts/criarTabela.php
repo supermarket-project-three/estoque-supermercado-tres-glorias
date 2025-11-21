@@ -1,5 +1,6 @@
 <?php
-// scripts/criarTabelas.php
+
+//Script básico para criar as tabelas do bd
 
 // Carrega o bootstrap do Doctrine
 require_once __DIR__ . '/../bootstrap.php';
@@ -19,10 +20,6 @@ try {
     }
 
     echo "Gerando schema para " . count($classes) . " entidades...\n";
-    
-    // Gera o SQL para criar as tabelas
-    // $sql = $tool->getCreateSchemaSql($classes);
-    // print_r($sql); // Descomente para ver o SQL antes de executar
     
     // Executa a criação das tabelas
     $tool->createSchema($classes);

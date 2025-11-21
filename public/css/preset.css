@@ -111,3 +111,40 @@ footer {
     font-weight: 400;
 }
 
+@media (max-width: 768px) {
+    
+    /* 1. Ajuste de Espaçamento Geral */
+    .container {
+        padding: 10px; /* Reduz um pouco o padding para aproveitar a tela */
+    }
+
+    /* 2. Acessibilidade dos Botões (Toque) */
+    /* Em celulares, botões precisam ser maiores para o dedo acertar */
+    .buttonVerde, 
+    .buttonAzul {
+        padding: 12px 20px; /* Aumenta a área de clique */
+        font-size: 1rem;    /* Aumenta o texto */
+        width: 100%;        /* Opcional: faz o botão ocupar a largura total no celular */
+        display: block;     /* Garante que fique em linha própria se houver width 100% */
+        margin-bottom: 10px;
+    }
+
+    /* 3. Ajuste do Footer */
+    .titulo-footer {
+        width: 100%;
+        flex-direction: column; /* Empilha ícone e texto se ficar apertado */
+        align-items: center;
+        gap: 10px;
+    }
+
+    .info-footer {
+        width: 95%; /* Usa mais largura da tela */
+        font-size: 0.9rem; /* Reduz um pouco se o texto for longo, ou aumenta para leitura */
+        line-height: 1.4; /* Melhora leitura de texto corrido */
+    }
+
+    footer {
+        font-size: 0.85rem; /* Aumenta a fonte base do footer para legibilidade */
+        padding-bottom: 80px; /* Espaço extra se houver menus fixos no celular */
+    }
+}

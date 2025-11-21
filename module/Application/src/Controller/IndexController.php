@@ -7,14 +7,14 @@ namespace Application\Controller;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Application\Service\DoctrineService;
-use Application\Entity\Produto; // Importa a entidade Produto
-use Application\Entity\MovimentoEstoque; // Importa a entidade MovimentoEstoque
+use Application\Entity\Produto;
+use Application\Entity\MovimentoEstoque;
 
 class IndexController extends AbstractActionController
 {
-    private $em; // EntityManager do Doctrine
+    private $em; // EntityManager
 
-    // 1. Recebe o DoctrineService (Correto)
+    //Recebe o DoctrineService 
     public function __construct(DoctrineService $doctrineService)
     {
         $this->em = $doctrineService->getEntityManager();
@@ -22,33 +22,29 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {
-        // --- LÓGICA DO DASHBOARD (AGORA 100% DINÂMICA) ---
         
-        // 2. Pega o Repositório customizado de Produto
-        // (O Doctrine sabe que é o ProdutoRepository graças ao mapeamento na Entidade)
+        // Pega o Repositório customizado de Produto
         $repoProduto = $this->em->getRepository(Produto::class);
         
-        // 3. <<< ALTERAÇÃO: Busca os dados para os KPIs (Cartões) >>>
-        // Substitui os valores estáticos pelas chamadas reais ao repositório
+        //Busca os dados para os KPIs
         
         $kpi_estoque_baixo = $repoProduto->getKpiItensEstoqueBaixo();
         $kpi_esgotados = $repoProduto->getKpiItensEsgotados();
         $kpi_total_produtos = $repoProduto->getKpiTotalProdutos();
         $kpi_valor_total = $repoProduto->getKpiValorTotalEstoque();
         
-        // 4. Busca os produtos para a tabela de "Alertas" (O seu código já fazia isto)
+        //Busca os produtos para a tabela de Alertas
         $produtosEmAlerta = $repoProduto->findBy(
-            ['ativo' => true], // Critérios
-            ['quantidade' => 'ASC'], // Ordenar (estoque baixo primeiro)
-            10 // Limite
+            ['ativo' => true], 
+            ['quantidade' => 'ASC'],
+            10
         );
         
-        // 5. Busca as últimas alterações
-        // (O seu código já fazia isto, continuará vazio até implementarmos MovimentoEstoque)
+        //Busca as últimas alterações
         $ultimasAlteracoes = $this->em->getRepository(MovimentoEstoque::class)
                                 ->findBy([], ['data' => 'DESC'], 5);
 
-        // 6. Envia todos os dados REAIS para a View
+        //Envia todos os dados para a View
         $viewModel = new ViewModel([
             'kpi_estoque_baixo' => $kpi_estoque_baixo,
             'kpi_esgotados' => $kpi_esgotados,
@@ -58,7 +54,6 @@ class IndexController extends AbstractActionController
             'ultimasAlteracoes' => $ultimasAlteracoes
         ]);
         
-        // Diz ao Laminas para NÃO USAR o layout principal (barra azul)
         $viewModel->setTerminal(true);
         
         return $viewModel;

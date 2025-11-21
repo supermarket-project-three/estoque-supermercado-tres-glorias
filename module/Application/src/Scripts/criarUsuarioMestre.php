@@ -1,16 +1,13 @@
 <?php
-// scripts/criarUsuarioMestre.php
 
-/**
- * Script para criar o primeiro usuário administrador (Mestre) no banco de dados.
- */
+//Script para criar o primeiro usuário administrador no banco de dados.
 
-// 1. Carrega o Doctrine
+//Carrega o Doctrine
 require_once __DIR__ . '/../bootstrap.php';
 
 use Application\Entity\Usuario;
 
-// 2. Define os dados do Admin
+//Define os dados do Admin
 $emailMestre = "mestre@tresglorias.com";
 $senhaMestre = "mestre123";
 $nomeMestre = "Administrador Mestre";
@@ -18,7 +15,7 @@ $nomeMestre = "Administrador Mestre";
 echo "Iniciando criação do usuário mestre...\n";
 
 try {
-    // 3. Verifica se o usuário já existe (para não duplicar)
+    //Verifica se o usuário já existe
     $repo = $entityManager->getRepository(Usuario::class);
     $usuarioExistente = $repo->findOneBy(['email' => $emailMestre]);
 
@@ -27,16 +24,15 @@ try {
         exit;
     }
 
-    // 4. Cria a nova entidade
+    //Cria a nova entidade
     $mestre = new Usuario();
     $mestre->setNome($nomeMestre);
     $mestre->setEmail($emailMestre);
     $mestre->setTipo('admin');
     
-    // 5. USA O MÉTODO QUE GERA O HASH
     $mestre->setSenhaComHash($senhaMestre);
 
-    // 6. Salva no banco de dados
+    //Salva no banco de dados
     $entityManager->persist($mestre);
     $entityManager->flush();
 

@@ -57,8 +57,6 @@
                 
                 <ul class="lista-setores-ul" id="lista-de-setores"> 
                     
-                    <!-- Não adicionar NENHUM estilo inline que mude a cor -->
-                    <!-- Correções como estas devem ser feitas no arquivo .css -->
                     <li class="lista-item lista-cabecalho"> 
                         <span class="setor-nome">Nome do Setor</span>
                         <div class="setor-acoes">Ações</div>
@@ -74,7 +72,6 @@
                             echo '<span class="setor-nome">' . $this->escapeHtml($setor->getNome()) . '</span>';
                             echo '<div class="setor-acoes">';
                                 
-                                // Link de apagar aponta para a rota 'dashboard-setores-apagar'
                                 $urlApagar = $this->url('dashboard-setores-apagar', ['id' => $setor->getId()]);
                                 echo '<a href="' . $urlApagar . '" class="button-excluir js-btn-excluir" onclick="return confirm(\'Atenção! Apagar um setor pode causar problemas se houver produtos ou usuários ligados a ele. Deseja continuar?\')">Excluir</a>';
 

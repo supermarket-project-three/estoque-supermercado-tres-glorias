@@ -3,7 +3,6 @@
 namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-// Importações necessárias para os relacionamentos
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\Setor;
 
@@ -23,7 +22,7 @@ class Usuario
     private string $email;
 
     #[ORM\Column(type: "string", length: 255)]
-    private string $senha; // Guarda o HASH
+    private string $senha;
 
     #[ORM\Column(type: "string", columnDefinition: "ENUM('admin','responsavel')")]
     private string $tipo;
@@ -41,7 +40,7 @@ class Usuario
 
     }
 
-    // --- Métodos de Senha (Essenciais) ---
+    // Métodos de Senha
 
     /**
      * Gera o hash da senha antes de salvar

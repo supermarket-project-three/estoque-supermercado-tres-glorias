@@ -4,7 +4,7 @@ namespace Application\Repository;
 use Doctrine\ORM\EntityRepository;
 use Application\Entity\Produto;
 
-// Estendemos o EntityRepository padrão
+
 class ProdutoRepository extends EntityRepository
 {
     /**
@@ -12,11 +12,10 @@ class ProdutoRepository extends EntityRepository
      */
     public function getKpiTotalProdutos()
     {
-        // DQL (Doctrine Query Language) - parece SQL, mas usa objetos
         $dql = 'SELECT COUNT(p.id) FROM Application\Entity\Produto p';
         
         return $this->getEntityManager()->createQuery($dql)
-                    ->getSingleScalarResult(); // Retorna um único valor (ex: 132)
+                    ->getSingleScalarResult();
     }
 
     /**
@@ -28,7 +27,7 @@ class ProdutoRepository extends EntityRepository
                 WHERE p.quantidade <= 0';
         
         return $this->getEntityManager()->createQuery($dql)
-                    ->getSingleScalarResult(); // Retorna (ex: 1)
+                    ->getSingleScalarResult();
     }
 
     /**
@@ -46,16 +45,15 @@ class ProdutoRepository extends EntityRepository
     }
 
     /**
-     * Calcula o valor total do estoque (Preço * Quantidade)
+     * Calcula o valor total do estoque
      */
     public function getKpiValorTotalEstoque()
     {
-        // SUM (soma) da multiplicação do preço pela quantidade
         $dql = 'SELECT SUM(p.preco * p.quantidade) FROM Application\Entity\Produto p';
         
         $valor = $this->getEntityManager()->createQuery($dql)
                       ->getSingleScalarResult();
         
-        return $valor ?? 0; // Retorna 0 se o SUM for nulo (nenhum produto)
+        return $valor ?? 0;
     }
 }

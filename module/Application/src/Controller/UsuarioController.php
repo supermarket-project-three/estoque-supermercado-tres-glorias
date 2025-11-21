@@ -31,7 +31,7 @@ class UsuarioController extends AbstractActionController
         //Envia usuários E setores para a view
         $viewModel = new ViewModel([
             'usuarios' => $usuarios,
-            'setores'  => $setores // <<< NOVO
+            'setores'  => $setores
         ]);
 
         $viewModel->setTerminal(true);
@@ -53,7 +53,7 @@ class UsuarioController extends AbstractActionController
 
         $emailExistente = $this->em->getRepository(Usuario::class)->findOneBy(['email' => $data['email']]);
         if ($emailExistente) {
-            // (Futuramente, uma mensagem de erro flash)
+
             return $this->redirect()->toRoute('dashboard-usuarios');
         }
 
@@ -126,16 +126,16 @@ class UsuarioController extends AbstractActionController
             return $this->redirect()->toRoute('dashboard-usuarios');
         }
         
-        // Busca os setores (para o dropdown)
+        // Busca os setores para o dropdown
         $setores = $this->em->getRepository(Setor::class)->findAll();
 
-        // Envia os dados para uma nova view (editar.phtml)
+        // Envia os dados para uma nova view
         $viewModel = new ViewModel([
             'usuario' => $usuario, // O usuário a ser editado
             'setores' => $setores   // A lista de setores
         ]);
         
-        // Aponta para o novo arquivo de view que vamos criar
+        // Aponta para o novo arquivo de view
         $viewModel->setTemplate('application/usuario/editar.phtml'); 
         
         $viewModel->setTerminal(true); 
@@ -152,7 +152,6 @@ class UsuarioController extends AbstractActionController
         // Pega o ID da rota
         $id = (int) $this->params()->fromRoute('id', 0);
         
-        // Busca o usuário que queremos ATUALIZAR
         $usuario = $this->em->getRepository(Usuario::class)->find($id);
 
         if (!$usuario || $this->getRequest()->getMethod() !== 'POST') {
@@ -167,7 +166,6 @@ class UsuarioController extends AbstractActionController
         $usuario->setEmail($data['email']);
         $usuario->setTipo($data['tipo']);
 
-        // Lógica da Senha: Só atualiza se uma nova senha for digitada
         if (!empty($data['senha'])) {
             $usuario->setSenhaComHash($data['senha']);
         }
@@ -184,7 +182,6 @@ class UsuarioController extends AbstractActionController
         }
 
         // Salva as alterações no banco
-        // (Não é preciso persist(), pois o objeto já está "gerido" pelo Doctrine)
         $this->em->flush();
 
         // Redireciona de volta para a lista

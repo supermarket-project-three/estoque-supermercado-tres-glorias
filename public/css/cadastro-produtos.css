@@ -325,3 +325,30 @@ body {
     color: #333;
     border-color: #adb5bd;
 }
+
+@media (max-width:1000px){
+    .main-header{
+        flex-direction: column;
+    }
+    .main-header ul{
+        flex-wrap: wrap;
+    }
+    .left-header{
+        margin-bottom: 15px;
+    }
+
+    .right-header a{
+        font-size: 0.7rem !important;
+        margin: 20px;
+    }
+
+    #list{
+        font-size: 0.3rem;
+    }
+    #list thead th{
+        font-size: 0.25rem;
+    }
+    #list-body tr td a {
+        font-size: 0.3rem;
+    }
+}

@@ -116,12 +116,11 @@
                 <table id="list">
                     <thead id="list-header">
                         <tr>
-                            <th>ID</th>
                             <th>Nome</th>
                             <th>Marca</th>
                             <th>Setor</th>
-                            <th>Descrição</th> <th>Preço</th>
-                            <th>Estoque</th>
+                            <th>Desc</th> <th>Preço</th>
+                            <th>Estq</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -131,7 +130,6 @@
                         <?php else: ?>
                             <?php foreach ($this->produtos as $produto): ?>
                             <tr>
-                                <td><?php echo $produto->getId(); ?></td>
                                 <td><?php echo $this->escapeHtml($produto->getNome()); ?></td>
                                 <td><?php echo $this->escapeHtml($produto->getMarca()); ?></td>
                                 <td><?php echo $this->escapeHtml($produto->getSetor()->getNome()); ?></td>

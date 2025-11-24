@@ -140,3 +140,24 @@ main {
     /* Adiciona um espacinho para ela "respirar" */
     margin-top: 10px; 
 }
+
+@media (max-width:768px){
+
+    .preenchimento{
+        width: 300px;
+        font-size: 0.8rem;
+    }
+    .preenchimento button{
+        width: 100px;
+        display: block;
+        padding-right: 8px;
+    }
+
+    .preenchimento p{
+        margin-bottom: 5px;
+    }
+    .preenchimento p input{
+        margin-right: 0;
+        margin: 0;
+    }
+}

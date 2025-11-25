@@ -181,23 +181,12 @@ h1, h2, h3 {
     font-size: 0.8rem;
 }
 
-
-/* ============================================================
-   REGRA GLOBAL DO AVISO (ESCONDE POR PADRÃO NO PC)
-   ============================================================ */
-
 .aviso-scroll {
-    display: none !important; /* Esconde no PC */
+    display: none !important;
 }
 
-
-/* ============================================================
-   MEDIA QUERIES (RESPONSIVIDADE - MOBILE)
-   ============================================================ */
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1200px) {
     
-    /* 1. MOSTRA O AVISO NO CELULAR */
     .aviso-scroll {
         display: block !important;
         text-align: right;
@@ -208,7 +197,6 @@ h1, h2, h3 {
         font-size: 0.8rem;
     }
 
-    /* 2. MENU */
     .main-header {
         flex-direction: column;
         align-items: center;
@@ -230,7 +218,6 @@ h1, h2, h3 {
         margin-bottom: 5px; 
     }
 
-    /* 3. LAYOUT EM COLUNA */
     .dashboard-flex {
         flex-direction: column;
         align-items: center;
@@ -244,8 +231,6 @@ h1, h2, h3 {
         margin-bottom: 30px;
         padding: 20px 10px;
     }
-
-    /* 4. TABELA COM SCROLL */
     .tabela-scroll {
         width: 100%;
         overflow-x: auto;
@@ -268,7 +253,7 @@ h1, h2, h3 {
     }
 
     #list-body tr td {
-    padding: 8px 5px; /* Reduz padding lateral para caber mais */
+    padding: 8px 5px; 
     font-size:0.6rem;
     }
 
@@ -276,55 +261,23 @@ h1, h2, h3 {
         font-size: 0.6rem;
     }
 
-    /* Os Links de Ação (Editar/Apagar) */
     #list-body a {
-        /* Força os links a se comportarem como blocos para aceitar padding e margem */
+      
         display: inline-block; 
     
-        padding: 8px 12px; /* Aumenta a área clicável */
-        margin: 3px 0; /* Dá um pequeno espaçamento vertical entre eles */
-        font-size: 0.85rem; /* Talvez aumentar um pouco a fonte */
-        white-space: nowrap; /* Impede que o texto do botão quebre */
+        padding: 8px 12px; 
+        margin: 3px 0; 
+        font-size: 0.85rem; 
+        white-space: nowrap;
     }
-
-    /* Se quiser que eles fiquem um embaixo do outro no mobile: */
-    #list-body td:last-child { /* A célula onde estão os botões */
-        display: flex; /* Transforma em flex container */
-        flex-direction: column; /* Faz os botões ficarem um abaixo do outro */
-        align-items: center; /* Centraliza os botões */
+    #list-body td:last-child { 
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
         justify-content: center;
-        gap: 5px; /* Espaço entre os botões */
+        gap: 5px;
     }
-
-    /* Opcional: Centraliza o cabeçalho 'OPTIONS' */
     #list-header td:last-child {
         text-align: center;
-    }
-}
-
-/* ============================================================
-   MEDIA QUERIES (DESKTOP - AJUSTES FINAIS)
-   ============================================================ */
-
-@media screen and (min-width: 769px) {
-    
-    .dashboard-flex {
-        flex-direction: row;
-        justify-content: space-evenly;
-        align-items: flex-start;
-    }
-
-    .register-user {
-        width: 40%;
-        border-left: 5px solid #00875E;
-        border-top: none;
-        box-shadow: 0 0 5px rgba(128, 128, 128, 0.555); 
-    }
-
-    .list-users {
-        width: 50%;
-        border-left: 5px solid #00875E;
-        border-top: none;
-        box-shadow: 0 0 5px rgba(128, 128, 128, 0.555);
     }
 }

@@ -17,3 +17,12 @@
         .badge-saida { background-color: #c0392b; }
         .badge-ajuste { background-color: #f39c12; }
 
+        @media(max-width:1000px){
+            .obs{
+                display: none;
+            }
+            .badge{
+                font-size: 0.2rem;
+            }
+        }
+

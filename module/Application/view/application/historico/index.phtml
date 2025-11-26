@@ -93,7 +93,7 @@
                             <th>Produto</th>
                             <th>Qtd.</th>
                             <th>Responsável</th>
-                            <th>Observação</th>
+                            <th class="obs">Observação</th>
                         </tr>
                     </thead>
                     <tbody id="list-body">
@@ -125,7 +125,7 @@
                                 
                                 <td><?php echo $this->escapeHtml($mov->getUsuario()->getNome()); ?></td>
                                 
-                                <td style="font-style: italic; color: #555;">
+                                <td class="obs" style="font-style: italic; color: #555;">
                                     <?php echo $this->escapeHtml($mov->getObservacao()); ?>
                                 </td>
                             </tr>

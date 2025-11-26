@@ -127,6 +127,24 @@ main {
     padding: 3px;
 }
 
+#btOlhoFechado{
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+}
+
+#btOlhoAberto {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+}
+
 /* ==============================================
   NOVO ESTILO PARA MENSAGEM DE ERRO DO LOGIN
 ==============================================
